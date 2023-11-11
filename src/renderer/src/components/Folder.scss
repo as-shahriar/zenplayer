@@ -1,0 +1,14 @@
+.btn-folder{
+    img {
+        width: 48px;
+        height: 48px;
+    }
+    .text{
+        max-width: 100px;
+        font-size: 12px;
+    }
+
+    &:active {
+        border-color: transparent;
+    }
+}
