@@ -1,9 +1,9 @@
-import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, shell } from 'electron';
 import { join } from 'path';
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
-import { Channel } from '../constants/appConstants';
-import { AppService } from '../services/AppService';
+import { db } from './Repository';
+import { ipcHandler } from './IpcHandler';
 
 function createWindow(): void {
     const mainWindow = new BrowserWindow({
@@ -13,21 +13,13 @@ function createWindow(): void {
         autoHideMenuBar: true,
         ...(process.platform === 'linux' ? { icon } : {}),
         webPreferences: {
+            nodeIntegration: true,
             preload: join(__dirname, '../preload/index.js'),
             sandbox: false
         }
     });
 
-    ipcMain.handle(Channel.GET_FOLDER, async () => {
-        const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
-            properties: ['openDirectory']
-        });
-        if (canceled) {
-            return;
-        } else {
-            return AppService.getFolderDetails(filePaths[0]);
-        }
-    });
+    ipcHandler(mainWindow);
 
     mainWindow.on('ready-to-show', () => {
         mainWindow.show();
@@ -77,6 +69,10 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
+});
+
+app.on('before-quit', () => {
+    db.close();
 });
 
 // In this file you can include the rest of your app"s specific main process

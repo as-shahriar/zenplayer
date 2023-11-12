@@ -1,9 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { Repository } from '../main/Repository';
 import { FolderDetails } from '../models/FolderDetails';
+import { EntityModel } from '../models/EntityModel';
+import { Boolean } from '../models/BooleanParser';
 
 export class AppService {
-    static getFolderChildren = async (pathName: string) => {
+    readonly repository: Repository;
+
+    constructor() {
+        this.repository = new Repository();
+    }
+
+    getFolderChildren = async (pathName: string) => {
         const rootFolder = path.basename(pathName);
         const folderDetails: FolderDetails = {
             key: rootFolder,
@@ -17,7 +26,7 @@ export class AppService {
             const childAbsolutePath = path.join(pathName, childPath);
             const directory = fs.lstatSync(childAbsolutePath).isDirectory();
             if (directory) {
-                const childFolderDetails = await AppService.getFolderChildren(childAbsolutePath);
+                const childFolderDetails = await this.getFolderChildren(childAbsolutePath);
                 folderDetails.children.push(childFolderDetails);
             } else {
                 folderDetails.children.push({
@@ -31,7 +40,33 @@ export class AppService {
         return folderDetails;
     };
 
-    static getFolderDetails = async (path: string) => {
-        return await AppService.getFolderChildren(path);
+    uploadEachData = (data: FolderDetails, parent: number, root?: boolean) => {
+        if (data) {
+            const entity: EntityModel = {
+                name: data.key,
+                path: data.path,
+                directory: Boolean.parseToBoolean(data.directory),
+                root: Boolean.parseToBoolean(root),
+                parent,
+                id: 1
+            };
+            const res = this.repository.insert(entity);
+
+            if (data.children?.length > 0) {
+                for (const each of data.children) {
+                    this.uploadEachData(each, res.lastInsertRowid as number);
+                }
+            }
+        }
+    };
+
+    uploadFolderDetails = async (path: string) => {
+        const data = await this.getFolderChildren(path);
+        // console.log(data);
+        this.uploadEachData(data, -1, true);
+    };
+
+    getAllRootEntity = () => {
+        return this.repository.findAllRoot();
     };
 }
