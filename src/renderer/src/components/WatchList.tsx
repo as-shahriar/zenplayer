@@ -10,13 +10,17 @@ export const WatchList = (props: WatchListProps) => {
     const {} = props;
     const [entity, setEntity] = useState<EntityModel[]>([]);
     const getNewFolder = () => {
-        window[ApiKey].selectFolder().then(() => {});
+        window[ApiKey].selectFolder().then(() => {
+            getAll();
+        });
     };
-
-    useEffect(() => {
-        window[ApiKey].getRootFolders().then((result) => {
+    const getAll = () => {
+        window[ApiKey].getRootFolders().then((result: EntityModel[]) => {
             setEntity(result);
         });
+    };
+    useEffect(() => {
+        getAll();
     }, []);
 
     return (
