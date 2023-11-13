@@ -26,6 +26,10 @@ export class Repository {
         return db.prepare(`select * from folders where parent=-1;`).all() as EntityModel[];
     }
 
+    findChildren(parentId: number) {
+        return db.prepare(`select * from folders where parent=${parentId};`).all() as EntityModel[];
+    }
+
     insert(entity: EntityModel) {
         const stmt = db.prepare(`INSERT INTO folders (name, path, parent) VALUES (?, ?, ?);`);
         const { name, path, parent } = entity;

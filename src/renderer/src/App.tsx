@@ -9,6 +9,7 @@ const App = () => {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<WatchList />} />
+                <Route path={ROUTES.WATCH_LIST_BY_ID} element={<WatchList />} />
                 <Route path={ROUTES.SETTINGS} element={<Settings />} />
             </Route>
         </Routes>

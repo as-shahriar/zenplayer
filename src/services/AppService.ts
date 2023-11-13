@@ -40,13 +40,12 @@ export class AppService {
         return folderDetails;
     };
 
-    uploadEachData = (data: FolderDetails, parent: number, root?: boolean) => {
+    uploadEachData = (data: FolderDetails, parent: number) => {
         if (data) {
             const entity: EntityModel = {
                 name: data.key,
                 path: data.path,
                 directory: Boolean.parseToBoolean(data.directory),
-                root: Boolean.parseToBoolean(root),
                 parent,
                 id: 1
             };
@@ -63,10 +62,14 @@ export class AppService {
     uploadFolderDetails = async (path: string) => {
         const data = await this.getFolderChildren(path);
         // console.log(data);
-        this.uploadEachData(data, -1, true);
+        this.uploadEachData(data, -1);
     };
 
     getAllRootEntity = () => {
         return this.repository.findAllRoot();
+    };
+
+    getChildren = (parentId: number) => {
+        return this.repository.findChildren(parentId);
     };
 }

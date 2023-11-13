@@ -9,6 +9,10 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
         return appService.getAllRootEntity();
     });
 
+    ipcMain.handle(Channel.GET_CHILDREN, async (_event, parentId) => {
+        return appService.getChildren(parentId);
+    });
+
     ipcMain.handle(Channel.ADD_FOLDER, async () => {
         const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
             properties: ['openDirectory']
