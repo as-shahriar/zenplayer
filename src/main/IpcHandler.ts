@@ -21,4 +21,8 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
             return appService.uploadFolderDetails(filePaths[0]);
         }
     });
+
+    ipcMain.handle(Channel.GET_ENTITY, async (_event, id) => {
+        return appService.getEntity(id);
+    });
 };

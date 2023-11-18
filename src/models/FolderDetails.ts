@@ -1,6 +1,8 @@
+import { EntityType } from './EntityType';
+
 export type FolderDetails = {
     key: string;
     path: string;
-    directory: boolean;
+    type: EntityType;
     children: FolderDetails[];
 };

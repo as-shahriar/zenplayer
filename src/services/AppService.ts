@@ -3,7 +3,7 @@ import * as path from 'path';
 import { Repository } from '../main/Repository';
 import { FolderDetails } from '../models/FolderDetails';
 import { EntityModel } from '../models/EntityModel';
-import { Boolean } from '../models/BooleanParser';
+import { EntityType } from '../models/EntityType';
 
 export class AppService {
     readonly repository: Repository;
@@ -14,23 +14,31 @@ export class AppService {
 
     getFolderChildren = async (pathName: string) => {
         const rootFolder = path.basename(pathName);
+        const getType = (pathName: string) => {
+            if (fs.lstatSync(pathName).isDirectory()) {
+                return EntityType.Folder;
+            } else if (pathName.endsWith('.mp4')) {
+                return EntityType.Video;
+            }
+            return EntityType.Other;
+        };
         const folderDetails: FolderDetails = {
             key: rootFolder,
             path: pathName,
-            directory: fs.lstatSync(pathName).isDirectory(),
+            type: getType(pathName),
             children: []
         };
 
         const paths = fs.readdirSync(pathName);
         for (const childPath of paths) {
             const childAbsolutePath = path.join(pathName, childPath);
-            const directory = fs.lstatSync(childAbsolutePath).isDirectory();
-            if (directory) {
+            const type = getType(childAbsolutePath);
+            if (type === EntityType.Folder) {
                 const childFolderDetails = await this.getFolderChildren(childAbsolutePath);
                 folderDetails.children.push(childFolderDetails);
             } else {
                 folderDetails.children.push({
-                    directory: false,
+                    type,
                     key: childPath,
                     path: childAbsolutePath,
                     children: []
@@ -45,7 +53,7 @@ export class AppService {
             const entity: EntityModel = {
                 name: data.key,
                 path: data.path,
-                directory: Boolean.parseToBoolean(data.directory),
+                type: data.type,
                 parent,
                 id: 1
             };
@@ -71,5 +79,9 @@ export class AppService {
 
     getChildren = (parentId: number) => {
         return this.repository.findChildren(parentId);
+    };
+
+    getEntity = (id: number) => {
+        return this.repository.findById(id);
     };
 }

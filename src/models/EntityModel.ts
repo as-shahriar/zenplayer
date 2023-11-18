@@ -1,9 +1,9 @@
-import { BooleanType } from './BooleanParser';
+import { EntityType } from './EntityType';
 
 export type EntityModel = {
     id: number;
     name: string;
     path: string;
     parent: number;
-    directory: BooleanType;
+    type: EntityType;
 };

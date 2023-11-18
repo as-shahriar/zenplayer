@@ -13,11 +13,17 @@ db.exec(
          id     INTEGER PRIMARY KEY,
          name   TEXT,
          path   TEXT,
-         parent INTEGER DEFAULT -1
+         parent INTEGER DEFAULT -1,
+         type   INTEGER
      );`
 );
 
 export class Repository {
+    findById(id: number) {
+        const stmt = db.prepare(`select * from folders where id = ?`);
+        return stmt.get(id) as EntityModel;
+    }
+
     findAll() {
         return db.prepare(`select * from folders where 1;`).all() as EntityModel[];
     }
@@ -31,8 +37,10 @@ export class Repository {
     }
 
     insert(entity: EntityModel) {
-        const stmt = db.prepare(`INSERT INTO folders (name, path, parent) VALUES (?, ?, ?);`);
-        const { name, path, parent } = entity;
-        return stmt.run(name, path, parent);
+        const stmt = db.prepare(
+            `INSERT INTO folders (name, path, parent, type) VALUES (?, ?, ?, ?);`
+        );
+        const { name, path, parent, type } = entity;
+        return stmt.run(name, path, parent, type);
     }
 }

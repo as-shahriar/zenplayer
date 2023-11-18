@@ -3,17 +3,31 @@ import addFolderIcon from '../assets/icons/add-folder.svg';
 import { ApiKey } from '../../../constants/appConstants';
 import { useEffect, useState } from 'react';
 import { EntityModel } from '../../../models/EntityModel';
-import { useParams } from 'react-router-dom';
+import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import 'plyr-react/plyr.css';
-import Plyr from 'plyr-react';
+import { ROUTES } from '../Routes';
+import videoIcon from '../assets/icons/video.svg';
+import folderIcon from '../assets/icons/folder.svg';
+import unknownIcon from '../assets/icons/unknown.svg';
+import { EntityType } from '../../../models/EntityType';
 
 type WatchListProps = {};
 
 export const WatchList = (props: WatchListProps) => {
     const {} = props;
-    const [entity, setEntity] = useState<EntityModel[]>([]);
-    const [videoSrc, setVideoSrc] = useState<string>('');
+    const [entityList, setEntityList] = useState<EntityModel[]>([]);
     const { id } = useParams();
+
+    const navigate = useNavigate();
+    const onClick = (entity: EntityModel) => {
+        if (entity.type === EntityType.Folder) {
+            const link = generatePath(ROUTES.WATCH_LIST_BY_ID, { id: entity.id });
+            navigate(link);
+        } else if (entity.type === EntityType.Video) {
+            navigate(generatePath(ROUTES.VIDEO, { id: entity.id }));
+        }
+    };
+
     const getNewFolder = () => {
         window[ApiKey].selectFolder().then(() => {
             getAll();
@@ -21,14 +35,25 @@ export const WatchList = (props: WatchListProps) => {
     };
     const getAll = () => {
         window[ApiKey].getRootFolders().then((result: EntityModel[]) => {
-            setEntity(result);
+            setEntityList(result);
         });
+    };
+
+    const renderIcon = (entity: EntityModel) => {
+        switch (entity.type) {
+            case EntityType.Folder:
+                return folderIcon;
+            case EntityType.Video:
+                return videoIcon;
+            default:
+                return unknownIcon;
+        }
     };
 
     useEffect(() => {
         if (id) {
             window[ApiKey].getChildren(id).then((result: EntityModel[]) => {
-                setEntity(result);
+                setEntityList(result);
             });
         } else {
             getAll();
@@ -45,44 +70,15 @@ export const WatchList = (props: WatchListProps) => {
                 </button>
             </div>
             <div className="mt-4 d-flex flex-wrap gap-4">
-                {entity.map((item) => (
-                    <>
-                        <button
-                            className="btn btn-link"
-                            onClick={() => {
-                                if (!item.directory) setVideoSrc(item.path);
-                            }}
-                        >
-                            Play
-                        </button>
-                        <Folder key={item.id} title={item.name} id={item.id} />
-                    </>
+                {entityList.map((entity) => (
+                    <Folder
+                        key={entity.id}
+                        title={entity.name}
+                        onClick={() => onClick(entity)}
+                        icon={renderIcon(entity)}
+                    />
                 ))}
             </div>
-
-            {videoSrc && (
-                <Plyr
-                    source={{
-                        type: 'video',
-                        title: 'Example title',
-                        sources: [
-                            {
-                                // src: 'atom:///home/asif/Downloads/01 - Getting Started/001 Welcome to the Course.mp4',
-                                src: 'file://' + videoSrc,
-                                // src:"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
-
-                                type: 'video/mp4',
-                                size: 720
-                            }
-                        ]
-                    }}
-                    options={{ autoplay: true }}
-                />
-                // <video width="320" height="240" controls>
-                //     <source src={'file://' + videoSrc} type="video/mp4" />
-                //     Your browser does not support the video tag.
-                // </video>
-            )}
         </div>
     );
 };

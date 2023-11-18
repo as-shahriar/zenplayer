@@ -25,5 +25,6 @@ if (process.contextIsolated) {
 contextBridge.exposeInMainWorld(ApiKey, {
     selectFolder: () => ipcRenderer.invoke(Channel.ADD_FOLDER),
     getRootFolders: () => ipcRenderer.invoke(Channel.GET_ROOT_FOLDERS),
+    getEntity: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY, id),
     getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId)
 });
