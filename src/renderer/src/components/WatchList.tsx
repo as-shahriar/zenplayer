@@ -4,13 +4,16 @@ import { ApiKey } from '../../../constants/appConstants';
 import { useEffect, useState } from 'react';
 import { EntityModel } from '../../../models/EntityModel';
 import { useParams } from 'react-router-dom';
+import 'plyr-react/plyr.css';
+import Plyr from 'plyr-react';
 
 type WatchListProps = {};
 
 export const WatchList = (props: WatchListProps) => {
     const {} = props;
     const [entity, setEntity] = useState<EntityModel[]>([]);
-    let { id } = useParams();
+    const [videoSrc, setVideoSrc] = useState<string>('');
+    const { id } = useParams();
     const getNewFolder = () => {
         window[ApiKey].selectFolder().then(() => {
             getAll();
@@ -21,6 +24,7 @@ export const WatchList = (props: WatchListProps) => {
             setEntity(result);
         });
     };
+
     useEffect(() => {
         if (id) {
             window[ApiKey].getChildren(id).then((result: EntityModel[]) => {
@@ -42,9 +46,43 @@ export const WatchList = (props: WatchListProps) => {
             </div>
             <div className="mt-4 d-flex flex-wrap gap-4">
                 {entity.map((item) => (
-                    <Folder key={item.id} title={item.name} id={item.id} />
+                    <>
+                        <button
+                            className="btn btn-link"
+                            onClick={() => {
+                                if (!item.directory) setVideoSrc(item.path);
+                            }}
+                        >
+                            Play
+                        </button>
+                        <Folder key={item.id} title={item.name} id={item.id} />
+                    </>
                 ))}
             </div>
+
+            {videoSrc && (
+                <Plyr
+                    source={{
+                        type: 'video',
+                        title: 'Example title',
+                        sources: [
+                            {
+                                // src: 'atom:///home/asif/Downloads/01 - Getting Started/001 Welcome to the Course.mp4',
+                                src: 'file://' + videoSrc,
+                                // src:"https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4",
+
+                                type: 'video/mp4',
+                                size: 720
+                            }
+                        ]
+                    }}
+                    options={{ autoplay: true }}
+                />
+                // <video width="320" height="240" controls>
+                //     <source src={'file://' + videoSrc} type="video/mp4" />
+                //     Your browser does not support the video tag.
+                // </video>
+            )}
         </div>
     );
 };

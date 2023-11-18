@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, protocol, shell } from 'electron';
 import { join } from 'path';
 import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
@@ -14,6 +14,7 @@ function createWindow(): void {
         ...(process.platform === 'linux' ? { icon } : {}),
         webPreferences: {
             nodeIntegration: true,
+            webSecurity: false,
             preload: join(__dirname, '../preload/index.js'),
             sandbox: false
         }
@@ -39,6 +40,18 @@ function createWindow(): void {
     }
 }
 
+protocol.registerSchemesAsPrivileged([
+    {
+        scheme: 'app',
+        privileges: {
+            secure: true,
+            standard: true,
+            supportFetchAPI: true, // Add this if you want to use fetch with this protocol.
+            stream: true // Add this if you intend to use the protocol for streaming i.e. in video/audio html tags.
+            // corsEnabled: true, // Add this if you need to enable cors for this protocol.
+        }
+    }
+]);
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -75,5 +88,17 @@ app.on('before-quit', () => {
     db.close();
 });
 
+// Register the 'file' protocol to allow loading local resources
+app.whenReady().then(() => {
+    protocol.registerFileProtocol('file', (request, callback) => {
+        const url = decodeURIComponent(request.url.replace('file://', ''));
+        try {
+            return callback(url);
+        } catch (e) {
+            console.error(e);
+            return callback('404');
+        }
+    });
+});
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
