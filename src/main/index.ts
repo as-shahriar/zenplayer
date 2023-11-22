@@ -4,6 +4,9 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import { db } from './Repository';
 import { ipcHandler } from './IpcHandler';
+import contextMenu from 'electron-context-menu';
+import { ROUTES } from '../renderer/src/Routes';
+import { Channel } from '../constants/appConstants';
 
 function createWindow(): void {
     const mainWindow = new BrowserWindow({
@@ -40,18 +43,6 @@ function createWindow(): void {
     }
 }
 
-protocol.registerSchemesAsPrivileged([
-    {
-        scheme: 'app',
-        privileges: {
-            secure: true,
-            standard: true,
-            supportFetchAPI: true, // Add this if you want to use fetch with this protocol.
-            stream: true // Add this if you intend to use the protocol for streaming i.e. in video/audio html tags.
-            // corsEnabled: true, // Add this if you need to enable cors for this protocol.
-        }
-    }
-]);
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -102,3 +93,18 @@ app.whenReady().then(() => {
 });
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+contextMenu({
+    menu: (actions, _props, browserWindow) => [
+        actions.separator(),
+        {
+            label: 'Settings',
+            click: () => {
+                (browserWindow as BrowserWindow).webContents.send(
+                    Channel.NAVIGATE,
+                    ROUTES.SETTINGS
+                );
+            }
+        }
+    ]
+});

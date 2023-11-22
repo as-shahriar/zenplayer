@@ -84,4 +84,9 @@ export class AppService {
     getEntity = (id: number) => {
         return this.repository.findById(id);
     };
+
+    getEntityAndSibling = (id: number) => {
+        const res = this.repository.findById(id);
+        return this.repository.findChildren(res.parent);
+    };
 }

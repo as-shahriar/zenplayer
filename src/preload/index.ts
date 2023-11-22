@@ -12,6 +12,7 @@ if (process.contextIsolated) {
     try {
         contextBridge.exposeInMainWorld('electron', electronAPI);
         contextBridge.exposeInMainWorld('api', api);
+        contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer);
     } catch (error) {
         console.error(error);
     }
@@ -26,5 +27,7 @@ contextBridge.exposeInMainWorld(ApiKey, {
     selectFolder: () => ipcRenderer.invoke(Channel.ADD_FOLDER),
     getRootFolders: () => ipcRenderer.invoke(Channel.GET_ROOT_FOLDERS),
     getEntity: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY, id),
-    getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId)
+    getEntityAndSibling: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY_AND_SIBLING, id),
+    getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId),
+    navigate: (_, func) => ipcRenderer.on(Channel.NAVIGATE, (_event, url) => func(url))
 });

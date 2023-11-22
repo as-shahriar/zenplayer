@@ -7,6 +7,7 @@
         "src/constants/*",
         "src/services/*",
         "src/models/*",
+        "src/renderer/src/Routes.ts",
     ],
     "compilerOptions": {
         "composite": true,

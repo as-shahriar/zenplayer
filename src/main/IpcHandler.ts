@@ -25,4 +25,8 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
     ipcMain.handle(Channel.GET_ENTITY, async (_event, id) => {
         return appService.getEntity(id);
     });
+
+    ipcMain.handle(Channel.GET_ENTITY_AND_SIBLING, async (_event, id) => {
+        return appService.getEntityAndSibling(id);
+    });
 };

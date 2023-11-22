@@ -2,7 +2,9 @@ export enum Channel {
     ADD_FOLDER = 'ADD_FOLDER',
     GET_ROOT_FOLDERS = 'GET_ROOT_FOLDERS',
     GET_CHILDREN = 'GET_CHILDREN',
-    GET_ENTITY = 'GET_ENTITY'
+    GET_ENTITY = 'GET_ENTITY',
+    NAVIGATE = 'NAVIGATE',
+    GET_ENTITY_AND_SIBLING = 'GET_ENTITY_AND_SIBLING'
 }
 
 export const ApiKey = 'zenplayer-api';

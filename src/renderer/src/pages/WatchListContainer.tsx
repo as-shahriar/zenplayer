@@ -1,4 +1,4 @@
-import { Folder } from './Folder';
+import { Folder } from '../components/Folder';
 import addFolderIcon from '../assets/icons/add-folder.svg';
 import { ApiKey } from '../../../constants/appConstants';
 import { useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import { EntityType } from '../../../models/EntityType';
 
 type WatchListProps = {};
 
-export const WatchList = (props: WatchListProps) => {
+export const WatchListContainer = (props: WatchListProps) => {
     const {} = props;
     const [entityList, setEntityList] = useState<EntityModel[]>([]);
     const { id } = useParams();
@@ -61,7 +61,7 @@ export const WatchList = (props: WatchListProps) => {
     }, [id]);
 
     return (
-        <div>
+        <div className="p-3">
             <div className="d-flex justify-content-between align-items-center">
                 <span>Watch List</span>
                 <button className="btn" onClick={getNewFolder}>

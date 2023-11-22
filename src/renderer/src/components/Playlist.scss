@@ -1,0 +1,15 @@
+$img-size: 20px;
+
+.playlist-container {
+    max-width: 300px;
+    right: 0;
+
+    button {
+        font-size: 13px;
+    }
+
+    img {
+        width: $img-size;
+        height: $img-size;
+    }
+}

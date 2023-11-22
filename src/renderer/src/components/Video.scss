@@ -1,0 +1,12 @@
+.video-container {
+    max-width: 100vw;
+
+    &.show-playlist {
+        max-width: calc(100vw - 300px);
+
+    }
+
+    .plyr {
+        height: 100vh !important;
+    }
+}
