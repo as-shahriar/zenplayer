@@ -3,14 +3,26 @@ import { ApiKey } from '../../../constants/appConstants';
 import { useEffect, useState } from 'react';
 import { EntityModel } from '../../../models/EntityModel';
 import { EntityType } from '../../../models/EntityType';
-import { Video } from '../components/Video';
+import { VideoPlayer } from '../components/VideoPlayer';
 import { Playlist } from '../components/Playlist';
 
-export const VideoPlayer = () => {
+export const VideoPlayerContainer = () => {
     const { id } = useParams();
-    const [videoSrc, setVideoSrc] = useState('');
+    const [videoSrc, setVideoSrc] = useState<EntityModel | null>(null);
     const [videoList, setVideoList] = useState<EntityModel[]>([]);
     const [playlist, setPlaylist] = useState(false);
+
+    const playNext = () => {
+        const currentIndex = videoList.findIndex((each) => each.id === videoSrc?.id);
+        if (currentIndex < videoList.length - 1 && currentIndex !== -1) {
+            setVideoSrc(videoList[currentIndex + 1]);
+        }
+    };
+
+    const play = (id: number) => {
+        const video = videoList.find((each) => each.id === Number(id)) || null;
+        setVideoSrc(video);
+    };
 
     useEffect(() => {
         if (id) {
@@ -21,7 +33,7 @@ export const VideoPlayer = () => {
     }, [id]);
 
     useEffect(() => {
-        setVideoSrc(videoList.find((each) => each.id === Number(id))?.path || '');
+        play(Number(id));
     }, [videoList]);
 
     return (
@@ -32,8 +44,8 @@ export const VideoPlayer = () => {
             >
                 Playlist
             </button>
-            <Video videoSrc={videoSrc} playlist={playlist} />
-            {playlist && <Playlist videoList={videoList} />}
+            <VideoPlayer videoSrc={videoSrc} playlist={playlist} playNext={playNext} />
+            {playlist && <Playlist videoList={videoList} activeVideo={videoSrc} play={play} />}
         </div>
     );
 };

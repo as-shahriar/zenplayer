@@ -2,7 +2,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { WatchListContainer } from './pages/WatchListContainer';
 import { Settings } from './pages/Settings';
 import { ROUTES } from './Routes';
-import { VideoPlayer } from './pages/VideoPlayer';
+import { VideoPlayerContainer } from './pages/VideoPlayerContainer';
 import { ApiKey, Channel } from '../../constants/appConstants';
 import { useEffect } from 'react';
 
@@ -19,7 +19,7 @@ const App = () => {
             <Route index element={<WatchListContainer />} />
             <Route path={ROUTES.WATCH_LIST_BY_ID} element={<WatchListContainer />} />
             <Route path={ROUTES.SETTINGS} element={<Settings />} />
-            <Route path={ROUTES.VIDEO} element={<VideoPlayer />} />
+            <Route path={ROUTES.VIDEO} element={<VideoPlayerContainer />} />
         </Routes>
     );
 };
