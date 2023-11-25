@@ -12,7 +12,7 @@ export const Playlist = (props: PlaylistProps) => {
     const { videoList, activeVideo, play } = props;
 
     return (
-        <div className="bg-white vh-100 playlist-container p-2">
+        <div className="bg-white vh-100 playlist-container p-2 overflow-y-auto">
             {videoList.map((video) => {
                 return (
                     <button

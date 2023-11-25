@@ -38,13 +38,12 @@ export const VideoPlayerContainer = () => {
 
     return (
         <div className="d-flex">
-            <button
-                className="btn btn-primary position-absolute top-1 z-3"
-                onClick={() => setPlaylist((e) => !e)}
-            >
-                Playlist
-            </button>
-            <VideoPlayer videoSrc={videoSrc} playlist={playlist} playNext={playNext} />
+            <VideoPlayer
+                videoSrc={videoSrc}
+                playlist={playlist}
+                playNext={playNext}
+                setPlaylist={setPlaylist}
+            />
             {playlist && <Playlist videoList={videoList} activeVideo={videoSrc} play={play} />}
         </div>
     );
