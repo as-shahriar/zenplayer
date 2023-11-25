@@ -29,5 +29,6 @@ contextBridge.exposeInMainWorld(ApiKey, {
     getEntity: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY, id),
     getEntityAndSibling: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY_AND_SIBLING, id),
     getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId),
+    updateProgress: (id, progress) => ipcRenderer.invoke(Channel.UPDATE_PROGRESS, id, progress),
     navigate: (_, func) => ipcRenderer.on(Channel.NAVIGATE, (_event, url) => func(url))
 });

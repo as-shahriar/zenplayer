@@ -10,11 +10,12 @@ export const db: Database = new sqlite(databasePath);
 db.exec(
     `CREATE TABLE IF NOT EXISTS folders
      (
-         id     INTEGER PRIMARY KEY,
-         name   TEXT,
-         path   TEXT,
-         parent INTEGER DEFAULT -1,
-         type   INTEGER
+         id       INTEGER PRIMARY KEY,
+         name     TEXT,
+         path     TEXT,
+         parent   INTEGER DEFAULT -1,
+         type     INTEGER,
+         progress INTEGER DEFAULT 0
      );`
 );
 
@@ -42,5 +43,10 @@ export class Repository {
         );
         const { name, path, parent, type } = entity;
         return stmt.run(name, path, parent, type);
+    }
+
+    updateProgress(id: number, progress: number) {
+        const stmt = db.prepare(`UPDATE folders SET progress = ? WHERE id = ?`);
+        return stmt.run(progress, id);
     }
 }

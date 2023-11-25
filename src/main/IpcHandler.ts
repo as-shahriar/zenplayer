@@ -29,4 +29,9 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
     ipcMain.handle(Channel.GET_ENTITY_AND_SIBLING, async (_event, id) => {
         return appService.getEntityAndSibling(id);
     });
+
+    ipcMain.handle(Channel.UPDATE_PROGRESS, async (_event, id, progress) => {
+        console.log({ id, progress });
+        return appService.updateProgress(id, progress);
+    });
 };

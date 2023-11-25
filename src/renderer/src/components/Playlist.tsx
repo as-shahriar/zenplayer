@@ -17,7 +17,7 @@ export const Playlist = (props: PlaylistProps) => {
                 return (
                     <button
                         key={video.id}
-                        className={`btn btn-link text-decoration-none p-0 d-flex gap-1 ${
+                        className={`playlist-item btn btn-link text-decoration-none p-0 d-flex gap-1 ${
                             activeVideo?.id === video.id ? 'bg-info' : ''
                         }`}
                         onClick={() => play(video.id)}

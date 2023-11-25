@@ -89,4 +89,8 @@ export class AppService {
         const res = this.repository.findById(id);
         return this.repository.findChildren(res.parent);
     };
+
+    updateProgress = (id: number, progress: number) => {
+        return this.repository.updateProgress(id, progress);
+    };
 }

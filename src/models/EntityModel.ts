@@ -6,4 +6,5 @@ export type EntityModel = {
     path: string;
     parent: number;
     type: EntityType;
+    progress?: number;
 };

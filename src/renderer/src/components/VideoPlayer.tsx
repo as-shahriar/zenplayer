@@ -10,6 +10,7 @@ type VideoProps = {
     playlist: boolean;
     playNext: () => void;
     setPlaylist: Dispatch<SetStateAction<boolean>>;
+    updateProgress: (total: number, current: number) => void;
 };
 
 const options = {
@@ -19,7 +20,7 @@ const options = {
 const PLAY_LIST_BUTTON = 'playlist-button';
 
 export const VideoPlayer = (props: VideoProps) => {
-    const { playlist, videoSrc, playNext, setPlaylist } = props;
+    const { playlist, videoSrc, playNext, setPlaylist, updateProgress } = props;
     const ref = useRef<APITypes>(null);
 
     const source: PlyrSource = useMemo(() => {
@@ -40,13 +41,18 @@ export const VideoPlayer = (props: VideoProps) => {
     useEffect(() => {
         const { current } = ref as React.MutableRefObject<APITypes>;
         if (current.plyr.source === null) return;
-        const api = current as { plyr: PlyrInstance };
+        const api = current as {
+            plyr: PlyrInstance;
+        };
         api.plyr.on('ready', () => console.log("I'm ready"));
         api.plyr.on('canplay', () => {
             api.plyr.play();
-            console.log('duration of audio is', api.plyr.duration);
         });
-        api.plyr.on('ended', playNext);
+        api.plyr.on('ended', () => {
+            updateProgress(api.plyr.duration, api.plyr.currentTime);
+            playNext();
+        });
+        api.plyr.on('timeupdate', () => updateProgress(api.plyr.duration, api.plyr.currentTime));
 
         const controls = document.querySelector('.plyr__controls');
         if (!controls?.querySelector(`.${PLAY_LIST_BUTTON}`)) {
