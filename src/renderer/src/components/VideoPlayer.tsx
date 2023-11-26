@@ -14,14 +14,23 @@ type VideoProps = {
 };
 
 const options = {
-    ratio: '16:9'
+    ratio: '16:9',
+    keyboard: { focused: true, global: true },
+    invertTime: false,
+    toggleInvert: true
 };
 
 const PLAY_LIST_BUTTON = 'playlist-button';
 
+const shouldApplyProgress = (progress?: number) => {
+    if (progress === undefined) return false;
+    return progress > 0 && progress < 100;
+};
+
 export const VideoPlayer = (props: VideoProps) => {
     const { playlist, videoSrc, playNext, setPlaylist, updateProgress } = props;
     const ref = useRef<APITypes>(null);
+    const updateCurrentTimeRef = useRef<boolean>(false);
 
     const source: PlyrSource = useMemo(() => {
         return {
@@ -46,10 +55,20 @@ export const VideoPlayer = (props: VideoProps) => {
         };
         api.plyr.on('ready', () => console.log("I'm ready"));
         api.plyr.on('canplay', () => {
+            if (
+                videoSrc?.progress !== undefined &&
+                api.plyr.duration !== 0 &&
+                updateCurrentTimeRef.current
+            ) {
+                const seek = (api.plyr.duration * videoSrc.progress) / 100;
+                console.log(Math.floor(seek));
+                api.plyr.currentTime = seek;
+                updateCurrentTimeRef.current = false;
+            }
+
             api.plyr.play();
         });
         api.plyr.on('ended', () => {
-            updateProgress(api.plyr.duration, api.plyr.currentTime);
             playNext();
         });
         api.plyr.on('timeupdate', () => updateProgress(api.plyr.duration, api.plyr.currentTime));
@@ -71,6 +90,10 @@ export const VideoPlayer = (props: VideoProps) => {
             controls?.appendChild(button);
         }
     });
+
+    useEffect(() => {
+        updateCurrentTimeRef.current = shouldApplyProgress(videoSrc?.progress);
+    }, [videoSrc]);
 
     return (
         <div className={`video-container ${playlist ? 'show-playlist' : ''}`}>
