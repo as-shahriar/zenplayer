@@ -14,15 +14,4 @@
     &:active {
         border-color: transparent !important;
     }
-
-    &:after {
-        content: "";
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        left: 0;
-        top: 46px;
-        border-radius: 4px;
-        background-color: red;
-    }
 }

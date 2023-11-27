@@ -76,6 +76,7 @@ export const WatchListContainer = (props: WatchListProps) => {
                         title={entity.name}
                         onClick={() => onClick(entity)}
                         icon={renderIcon(entity)}
+                        progress={entity?.progress || 0}
                     />
                 ))}
             </div>
