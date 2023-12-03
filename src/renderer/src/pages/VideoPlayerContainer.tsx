@@ -1,6 +1,6 @@
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { ApiKey } from '../../../constants/appConstants';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EntityModel } from '../../../models/EntityModel';
 import { EntityType } from '../../../models/EntityType';
 import { VideoPlayer } from '../components/VideoPlayer';
@@ -12,7 +12,6 @@ export const VideoPlayerContainer = () => {
     const [selectedVideo, setSelectedVideo] = useState<EntityModel | null>(null);
     const [videoList, setVideoList] = useState<EntityModel[]>([]);
     const [playlist, setPlaylist] = useState(false);
-    const uploadProgress = useRef(0);
     const navigate = useNavigate();
 
     const playNext = () => {
@@ -29,12 +28,7 @@ export const VideoPlayerContainer = () => {
     const updateVideoProgress = (total: number, current: number) => {
         if (!isNaN(current) && !isNaN(total) && total !== 0) {
             const progress = (current / total) * 100;
-            uploadProgress.current += 1;
-            if (
-                selectedVideo?.progress !== undefined &&
-                selectedVideo.progress <= progress &&
-                (uploadProgress.current > 30 || progress === 100)
-            ) {
+            if (selectedVideo?.progress !== undefined && selectedVideo.progress <= progress) {
                 window[ApiKey].updateProgress(selectedVideo.id, progress);
                 setVideoList((prev) => {
                     return prev.map((each) => {
@@ -47,7 +41,6 @@ export const VideoPlayerContainer = () => {
                         return each;
                     });
                 });
-                uploadProgress.current = 0;
             }
         }
     };
@@ -64,10 +57,6 @@ export const VideoPlayerContainer = () => {
         const video = videoList.find((each) => each.id === Number(id)) || null;
         setSelectedVideo(video);
     }, [videoList]);
-
-    useEffect(() => {
-        uploadProgress.current = 0;
-    }, [selectedVideo]);
 
     return (
         <div className="d-flex">

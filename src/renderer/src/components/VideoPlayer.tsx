@@ -30,6 +30,7 @@ const shouldApplyProgress = (progress?: number) => {
 export const VideoPlayer = (props: VideoProps) => {
     const { playlist, videoSrc, playNext, setPlaylist, updateProgress } = props;
     const ref = useRef<APITypes>(null);
+    const videoProgress = useRef(0);
     const updateCurrentTimeRef = useRef<boolean>(false);
 
     const source: PlyrSource = useMemo(() => {
@@ -71,7 +72,12 @@ export const VideoPlayer = (props: VideoProps) => {
         api.plyr.on('ended', () => {
             playNext();
         });
-        api.plyr.on('timeupdate', () => updateProgress(api.plyr.duration, api.plyr.currentTime));
+        api.plyr.on('timeupdate', () => {
+            if (api.plyr.currentTime - videoProgress.current > 5) {
+                videoProgress.current = api.plyr.currentTime;
+                updateProgress(api.plyr.duration, api.plyr.currentTime);
+            }
+        });
 
         const controls = document.querySelector('.plyr__controls');
         if (!controls?.querySelector(`.${PLAY_LIST_BUTTON}`)) {
