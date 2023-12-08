@@ -70,6 +70,7 @@ export const VideoPlayer = (props: VideoProps) => {
             api.plyr.play();
         });
         api.plyr.on('ended', () => {
+            updateProgress(api.plyr.duration, api.plyr.currentTime);
             playNext();
         });
         api.plyr.on('timeupdate', () => {

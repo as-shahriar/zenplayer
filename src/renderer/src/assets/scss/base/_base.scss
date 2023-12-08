@@ -1,4 +1,4 @@
-@import "bootstrap";
+@import "bootstrap/scss/variables";
 
 body {
     font-family: Roboto,
@@ -21,4 +21,12 @@ body {
 
 ul {
     list-style: none;
+}
+
+svg {
+    fill: $white;
+}
+
+a{
+    text-decoration: none;
 }

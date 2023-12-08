@@ -1,0 +1,26 @@
+@use "sass:math";
+@import "variables";
+@import "bootstrap/scss/mixins";
+
+@mixin themeProperty($theme, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties) {
+    @if $additionalPropertiesPositionIsFront {
+        #{$property}: unquote($additionalProperties + ' ' + map-get($theme, $color));
+    } @else {
+        #{$property}: unquote(map-get($theme, $color) + ' ' + $additionalProperties);
+    }
+}
+
+@mixin processTheme($module, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties) {
+    $light: map-get($themes, $light-theme);
+    $dark: map-get($themes, $dark-theme);
+
+    @include themeProperty($light, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties);
+
+    .#{$dark-theme} & {
+        @include themeProperty($dark, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
+    }
+}
+
+@mixin theme($property, $color, $additionalPropertiesPositionIsFront: false, $additionalProperties: '') {
+    @include processTheme(false, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties)
+}

@@ -1,0 +1,34 @@
+@import "bootstrap/scss/variables";
+
+$dark-theme: "dark-theme";
+$light-theme: "light-theme";
+
+$dark-primary: #0F2D6B;
+$dark-secondary: #002062;
+$dark-primary-semi-light: #0E45B6;
+$dark-primary-light: #5E9FFF;
+
+$theme-bg: "theme-bg";
+$theme-color: "theme-color";
+$theme-sidebar-bg: "theme-sidebar-bg";
+$theme-primary-semi-light: "theme-primary-semi-light";
+
+
+$light-theme-colors: (
+    $theme-bg: $dark-secondary,
+    $theme-color: $black,
+    $theme-sidebar-bg: $dark-primary,
+    $theme-primary-semi-light: $dark-primary-semi-light,
+);
+
+$dark-theme-colors: (
+    $theme-bg: $dark-secondary,
+    $theme-color: $white,
+    $theme-sidebar-bg: $dark-primary,
+    $theme-primary-semi-light: $dark-primary-semi-light
+);
+
+$themes: (
+    $light-theme: $light-theme-colors,
+    $dark-theme: $dark-theme-colors
+) !default;

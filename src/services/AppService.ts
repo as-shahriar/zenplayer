@@ -3,13 +3,15 @@ import * as path from 'path';
 import { Repository } from '../main/Repository';
 import { FolderDetails } from '../models/FolderDetails';
 import { EntityModel } from '../models/EntityModel';
-import { EntityType } from '../models/EntityType';
+import { EntityType } from '../models/enums/EntityType';
+import { ProcessingItemStatus } from '../models/enums/ProcessingItemStatus';
 
 export class AppService {
     readonly repository: Repository;
 
     constructor() {
-        this.repository = new Repository();
+        this.repository = Repository.getInstance();
+        console.log(this.repository);
     }
 
     getFolderChildren = async (pathName: string) => {
@@ -69,7 +71,6 @@ export class AppService {
 
     uploadFolderDetails = async (path: string) => {
         const data = await this.getFolderChildren(path);
-        // console.log(data);
         this.uploadEachData(data, -1);
     };
 
@@ -90,7 +91,45 @@ export class AppService {
         return this.repository.findChildren(res.parent);
     };
 
-    updateProgress = (id: number, progress: number) => {
+    updateProgress = async (id: number, progress: number) => {
+        this.repository.addProcessingItem(id);
         return this.repository.updateProgress(id, progress);
+    };
+
+    getAllProcessingItem = () => {
+        return this.repository.getAllProcessingItem();
+    };
+
+    updateProcessingItem = (id: number, status: number) => {
+        return this.repository.updateProcessingItem(id, status);
+    };
+
+    syncParents = (id: number) => {
+        if (id === -1) return;
+        this.updateProcessingItem(id, ProcessingItemStatus.IN_PROGRESS);
+        const item = this.getEntity(id);
+        const siblings = this.getChildren(item?.parent);
+        console.log(siblings);
+        let progress = 0;
+        for (const each of siblings) {
+            progress += each?.progress || 0;
+        }
+        progress = progress / siblings?.length;
+        void this.repository.updateProgress(item.parent, progress);
+    };
+
+    checkAndRunProcess = () => {
+        const items = this.getAllProcessingItem();
+        items.forEach((item) => {
+            if (item.status === ProcessingItemStatus.PENDING) {
+                this.syncParents(item.id);
+            }
+        });
+    };
+
+    startBackgroundSync = () => {
+        setInterval(() => {
+            this.checkAndRunProcess();
+        }, 10000);
     };
 }

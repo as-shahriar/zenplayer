@@ -1,0 +1,15 @@
+@import "../assets/scss/utils/functions";
+@import "../assets/scss/utils/variables";
+@import "../assets/scss/utils/mixins";
+
+.btn-add {
+    $btn-size: 50px;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    border-radius: 50%;
+    width: $btn-size;
+    height: $btn-size;
+
+    @include theme("background-color", $theme-sidebar-bg);
+}

@@ -7,6 +7,9 @@ import { ipcHandler } from './IpcHandler';
 import contextMenu from 'electron-context-menu';
 import { ROUTES } from '../renderer/src/Routes';
 import { Channel } from '../constants/appConstants';
+import { AppService } from '../services/AppService';
+
+const appService = new AppService();
 
 function createWindow(): void {
     const mainWindow = new BrowserWindow({
@@ -90,6 +93,10 @@ app.whenReady().then(() => {
             return callback('404');
         }
     });
+});
+
+app.whenReady().then(() => {
+    appService.startBackgroundSync();
 });
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

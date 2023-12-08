@@ -1,4 +1,4 @@
-import { EntityType } from './EntityType';
+import { EntityType } from './enums/EntityType';
 
 export type EntityModel = {
     id: number;

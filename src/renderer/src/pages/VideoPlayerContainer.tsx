@@ -2,7 +2,7 @@ import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import { ApiKey } from '../../../constants/appConstants';
 import { useEffect, useState } from 'react';
 import { EntityModel } from '../../../models/EntityModel';
-import { EntityType } from '../../../models/EntityType';
+import { EntityType } from '../../../models/enums/EntityType';
 import { VideoPlayer } from '../components/VideoPlayer';
 import { Playlist } from '../components/Playlist';
 import { ROUTES } from '../Routes';

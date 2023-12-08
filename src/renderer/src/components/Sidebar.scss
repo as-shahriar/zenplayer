@@ -1,0 +1,23 @@
+@import "../assets/scss/utils/functions";
+@import "../assets/scss/utils/variables";
+@import "../assets/scss/utils/mixins";
+
+.sidebar-container {
+    $sidebar-radius: 12px;
+    @include theme("background-color", $theme-sidebar-bg);
+    height: 100vh;
+    border-bottom-right-radius: $sidebar-radius;
+    border-top-right-radius: $sidebar-radius;
+
+    .nav {
+        .nav-item {
+            padding: 10px 20px;
+            display: inline-block;
+            width: 150px;
+
+            &.active {
+                @include theme("background-color", $theme-primary-semi-light);
+            }
+        }
+    }
+}
