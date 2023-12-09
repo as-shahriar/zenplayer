@@ -3,11 +3,8 @@
 @import "../assets/scss/utils/mixins";
 
 .sidebar-container {
-    $sidebar-radius: 12px;
     @include theme("background-color", $theme-sidebar-bg);
     height: 100vh;
-    border-bottom-right-radius: $sidebar-radius;
-    border-top-right-radius: $sidebar-radius;
 
     .nav {
         .nav-item {

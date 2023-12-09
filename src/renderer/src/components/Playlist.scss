@@ -1,15 +1,28 @@
-$img-size: 20px;
+@import "../assets/scss/utils/functions";
+@import "../assets/scss/utils/variables";
+@import "../assets/scss/utils/mixins";
 
 .playlist-container {
     max-width: 300px;
     right: 0;
+    @include theme("background-color", $theme-sidebar-bg);
 
     .playlist-item {
-        font-size: 13px;
-    }
+        font-size: 12px;
 
-    img {
-        width: $img-size;
-        height: $img-size;
+        .playlist-item-text {
+            max-width: 215px;
+        }
+
+        &.active {
+            @include theme("background-color", $theme-primary-semi-light);
+        }
+
+        @include progressStyle(21px, 2px, 9px, 11px);
+
+        .check{
+            bottom: 4px;
+            left: 26px;
+        }
     }
 }

@@ -7,22 +7,7 @@
     font-size: 11px;
     @include theme("color", $theme-color);
 
-    .progress-container {
-        $progress-height: 6px;
-        background-color: #fff;
-        width: 50px;
-        height: $progress-height;
-        position: absolute;
-        bottom: 27px;
-        left: 24px;
-        border-radius: 4px;
-
-        .progress {
-            height: $progress-height;
-            border-radius: 4px;
-            @include theme("background-color", $theme-primary-semi-light);
-        }
-    }
+    @include progressStyle();
 
     .check{
         bottom: 24px;

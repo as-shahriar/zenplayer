@@ -41,11 +41,11 @@ export const WatchListContainer = () => {
     }, [id]);
 
     return (
-        <div className="p-3">
+        <div className="p-3 pb-1">
             <div className="d-flex justify-content-between align-items-center">
                 <span className="fs-6">Watch List</span>
             </div>
-            <div className="mt-4 d-flex flex-wrap gap-4">
+            <div className="mt-4 pb-2 d-flex flex-wrap gap-4 me-n3 watch-list-content overflow-y-auto">
                 {entityList.map((entity) => (
                     <Folder
                         key={entity.id}

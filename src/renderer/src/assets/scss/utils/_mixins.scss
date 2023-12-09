@@ -24,3 +24,21 @@
 @mixin theme($property, $color, $additionalPropertiesPositionIsFront: false, $additionalProperties: '') {
     @include processTheme(false, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties)
 }
+
+@mixin progressStyle($progress-width: 50px,$progress-height: 5px, $bottom:26px, $left: 24px) {
+    .progress-container {
+        background-color: #fff;
+        width: $progress-width;
+        height: $progress-height;
+        position: absolute;
+        bottom: $bottom;
+        left: $left;
+        border-radius: 4px;
+
+        .progress {
+            height: $progress-height;
+            border-radius: 4px;
+            @include theme("background-color", $theme-primary-semi-light);
+        }
+    }
+}

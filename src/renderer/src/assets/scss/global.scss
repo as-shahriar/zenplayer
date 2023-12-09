@@ -13,8 +13,32 @@ body {
     }
 
     .btn {
-        &:active {
+        @include theme("color", $theme-color);
+
+        &, &:active {
             border-color: transparent !important;
         }
     }
+}
+
+
+*::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    @include theme("background-color", $theme-sidebar-bg);
+}
+
+*::-webkit-scrollbar {
+    width: 7px;
+    @include theme("background-color", $theme-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    @include theme("background-color", $theme-primary-semi-light);
+}
+
+.watch-list-content {
+    max-height: calc(100vh - 65px);
 }

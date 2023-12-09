@@ -3,11 +3,9 @@ import { Sidebar } from './Sidebar';
 
 export const Layout = () => {
     return (
-        <div className="row">
-            <div className="col-3">
-                <Sidebar />
-            </div>
-            <div className="col-9">
+        <div className="d-flex">
+            <Sidebar />
+            <div className="flex-grow-1">
                 <Outlet />
             </div>
         </div>
