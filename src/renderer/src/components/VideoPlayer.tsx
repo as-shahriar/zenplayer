@@ -61,9 +61,7 @@ export const VideoPlayer = (props: VideoProps) => {
                 api.plyr.duration !== 0 &&
                 updateCurrentTimeRef.current
             ) {
-                const seek = (api.plyr.duration * videoSrc.progress) / 100;
-                console.log(Math.floor(seek));
-                api.plyr.currentTime = seek;
+                api.plyr.currentTime = (api.plyr.duration * videoSrc.progress) / 100;
                 updateCurrentTimeRef.current = false;
             }
 
@@ -100,7 +98,7 @@ export const VideoPlayer = (props: VideoProps) => {
 
     useEffect(() => {
         updateCurrentTimeRef.current = shouldApplyProgress(videoSrc?.progress);
-    }, [videoSrc]);
+    }, [videoSrc?.id]);
 
     return (
         <div className={`video-container ${playlist ? 'show-playlist' : ''}`}>
