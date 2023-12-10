@@ -5,13 +5,13 @@ import { FolderDetails } from '../models/FolderDetails';
 import { EntityModel } from '../models/EntityModel';
 import { EntityType } from '../models/enums/EntityType';
 import { ProcessingItemStatus } from '../models/enums/ProcessingItemStatus';
+import { HelperService } from './helperService';
 
 export class AppService {
     readonly repository: Repository;
 
     constructor() {
         this.repository = Repository.getInstance();
-        console.log(this.repository);
     }
 
     getFolderChildren = async (pathName: string) => {
@@ -19,7 +19,7 @@ export class AppService {
         const getType = (pathName: string) => {
             if (fs.lstatSync(pathName).isDirectory()) {
                 return EntityType.Folder;
-            } else if (pathName.endsWith('.mp4')) {
+            } else if (HelperService.validateMedia(pathName)) {
                 return EntityType.Video;
             }
             return EntityType.Other;
@@ -38,7 +38,7 @@ export class AppService {
             if (type === EntityType.Folder) {
                 const childFolderDetails = await this.getFolderChildren(childAbsolutePath);
                 folderDetails.children.push(childFolderDetails);
-            } else {
+            } else if (type === EntityType.Video) {
                 folderDetails.children.push({
                     type,
                     key: childPath,
@@ -87,7 +87,7 @@ export class AppService {
     };
 
     getEntityAndSibling = (id: number) => {
-        const res = this.repository.findById(id);
+        const res = this.getEntity(id);
         return this.repository.findChildren(res.parent);
     };
 
@@ -96,40 +96,45 @@ export class AppService {
         return this.repository.updateProgress(id, progress);
     };
 
-    getAllProcessingItem = () => {
-        return this.repository.getAllProcessingItem();
+    getAllProcessingItemsByStatus = (status: ProcessingItemStatus) => {
+        return this.repository.getAllProcessingItemsByStatus(status);
     };
 
     updateProcessingItem = (id: number, status: number) => {
         return this.repository.updateProcessingItem(id, status);
     };
 
-    syncParents = (id: number) => {
-        if (id === -1) return;
-        this.updateProcessingItem(id, ProcessingItemStatus.IN_PROGRESS);
+    syncParents = (id: number, processId: number) => {
+        if (id === -1) {
+            this.updateProcessingItem(processId, ProcessingItemStatus.COMPLETED);
+            return;
+        }
+        this.updateProcessingItem(processId, ProcessingItemStatus.IN_PROGRESS);
         const item = this.getEntity(id);
         const siblings = this.getChildren(item?.parent);
-        console.log(siblings);
         let progress = 0;
         for (const each of siblings) {
             progress += each?.progress || 0;
         }
         progress = progress / siblings?.length;
         void this.repository.updateProgress(item.parent, progress);
+        this.syncParents(item.parent, processId);
     };
 
-    checkAndRunProcess = () => {
-        const items = this.getAllProcessingItem();
+    checkAndRunProcess = (status: ProcessingItemStatus) => {
+        const items = this.getAllProcessingItemsByStatus(status);
         items.forEach((item) => {
-            if (item.status === ProcessingItemStatus.PENDING) {
-                this.syncParents(item.id);
-            }
+            this.syncParents(item.id, item.id);
         });
     };
 
     startBackgroundSync = () => {
         setInterval(() => {
-            this.checkAndRunProcess();
-        }, 10000);
+            this.checkAndRunProcess(ProcessingItemStatus.PENDING);
+        }, 5000);
+
+        setInterval(() => {
+            this.checkAndRunProcess(ProcessingItemStatus.IN_PROGRESS);
+        }, 300000);
     };
 }

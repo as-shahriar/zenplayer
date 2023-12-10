@@ -49,6 +49,7 @@ export const WatchListContainer = () => {
                 {entityList.map((entity) => (
                     <Folder
                         key={entity.id}
+                        itemId={entity.id}
                         title={entity.name}
                         onClick={() => onClick(entity)}
                         type={entity.type}
@@ -56,7 +57,6 @@ export const WatchListContainer = () => {
                     />
                 ))}
             </div>
-
             {isHome && <AddButton refreshList={getAll} />}
         </div>
     );

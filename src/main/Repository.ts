@@ -4,6 +4,7 @@ import { app } from 'electron';
 import { DB_NAME } from '../constants/appConstants';
 import { EntityModel } from '../models/EntityModel';
 import { ProcessingItem } from '../models/ProcessingItem';
+import { ProcessingItemStatus } from '../models/enums/ProcessingItemStatus';
 
 const databasePath = path.join(app.getPath('userData'), DB_NAME);
 export const db: Database = new sqlite(databasePath);
@@ -77,8 +78,9 @@ export class Repository {
         return stmt.run(id);
     }
 
-    getAllProcessingItem() {
-        return db.prepare(`select * from processing_item where 1;`).all() as ProcessingItem[];
+    getAllProcessingItemsByStatus(status: ProcessingItemStatus) {
+        const stmt = db.prepare('select * from processing_item where status = ?');
+        return stmt.all(status) as ProcessingItem[];
     }
 
     updateProcessingItem(id: number, status: number) {

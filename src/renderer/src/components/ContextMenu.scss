@@ -1,0 +1,19 @@
+@import "../assets/scss/utils/functions";
+@import "../assets/scss/utils/variables";
+@import "../assets/scss/utils/mixins";
+
+.context-menu-container {
+    .contexify {
+        --contexify-menu-minWidth: 0;
+        @include theme("background-color", $theme-sidebar-bg);
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.02);
+
+        .contexify_itemContent {
+            @include theme("color", $theme-color);
+
+            &:hover {
+                @include theme("background-color", $theme-primary-semi-light);
+            }
+        }
+    }
+}

@@ -3,12 +3,14 @@
 @import "../assets/scss/utils/mixins";
 
 .playlist-container {
-    max-width: 300px;
+    width: 300px;
     right: 0;
     @include theme("background-color", $theme-sidebar-bg);
 
     .playlist-item {
         font-size: 12px;
+        text-align: start;
+        width: 100%;
 
         .playlist-item-text {
             max-width: 215px;
@@ -20,7 +22,7 @@
 
         @include progressStyle(21px, 2px, 9px, 11px);
 
-        .check{
+        .check {
             bottom: 4px;
             left: 26px;
         }

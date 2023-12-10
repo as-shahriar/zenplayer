@@ -10,6 +10,7 @@ module.exports = {
         '@typescript-eslint/ban-types': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
         "no-empty-function": "off",
-        '@typescript-eslint/no-empty-pattern': 'off'
+        '@typescript-eslint/no-empty-pattern': 'off',
+        '@typescript-eslint/no-explicit-any': 'off'
     }
 };

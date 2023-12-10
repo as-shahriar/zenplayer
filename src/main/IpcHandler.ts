@@ -31,7 +31,6 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
     });
 
     ipcMain.handle(Channel.UPDATE_PROGRESS, async (_event, id, progress) => {
-        console.log({ id, progress });
         return appService.updateProgress(id, progress);
     });
 };
