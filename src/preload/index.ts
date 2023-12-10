@@ -30,5 +30,7 @@ contextBridge.exposeInMainWorld(ApiKey, {
     getEntityAndSibling: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY_AND_SIBLING, id),
     getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId),
     updateProgress: (id, progress) => ipcRenderer.invoke(Channel.UPDATE_PROGRESS, id, progress),
+    updateFavorite: (id, favorite) => ipcRenderer.invoke(Channel.UPDATE_FAVORITE, id, favorite),
+    getAllFavorites: () => ipcRenderer.invoke(Channel.GET_ALL_FAVORITES),
     navigate: (_, func) => ipcRenderer.on(Channel.NAVIGATE, (_event, url) => func(url))
 });

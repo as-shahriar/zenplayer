@@ -7,4 +7,5 @@ export type EntityModel = {
     parent: number;
     type: EntityType;
     progress?: number;
+    favorite?: number;
 };

@@ -35,7 +35,7 @@ export const Sidebar = () => {
                         <Icon
                             className="mt-n1 me-2"
                             iconSpritePath={iconDef}
-                            name="heart"
+                            name="heart-solid"
                             width={18}
                             height={18}
                         />

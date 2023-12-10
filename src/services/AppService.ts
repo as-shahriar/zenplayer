@@ -137,4 +137,12 @@ export class AppService {
             this.checkAndRunProcess(ProcessingItemStatus.IN_PROGRESS);
         }, 300000);
     };
+
+    updateFavorite = (id: number, favorite: number) => {
+        this.repository.updateFavorite(id, favorite);
+    };
+
+    getAllFavorites = () => {
+        return this.repository.getAllFavorites();
+    };
 }

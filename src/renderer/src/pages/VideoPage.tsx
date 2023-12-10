@@ -7,7 +7,7 @@ import { VideoPlayer } from '../components/VideoPlayer';
 import { Playlist } from '../components/Playlist';
 import { ROUTES } from '../Routes';
 
-export const VideoPlayerContainer = () => {
+export const VideoPage = () => {
     const { id } = useParams();
     const [selectedVideo, setSelectedVideo] = useState<EntityModel | null>(null);
     const [videoList, setVideoList] = useState<EntityModel[]>([]);

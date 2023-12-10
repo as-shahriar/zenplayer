@@ -9,12 +9,12 @@ import { EntityType } from '../../../models/enums/EntityType';
 import { AddButton } from '../components/AddButton';
 import { useRoutesMatch } from '../hooks/useRoutesMatch';
 
-export const WatchListContainer = () => {
+export const WatchListPage = () => {
     const [entityList, setEntityList] = useState<EntityModel[]>([]);
     const { id } = useParams();
     const isHome = useRoutesMatch(ROUTES.HOME);
-
     const navigate = useNavigate();
+
     const onClick = (entity: EntityModel) => {
         if (entity.type === EntityType.Folder) {
             const link = generatePath(ROUTES.WATCH_LIST_BY_ID, { id: entity.id });
@@ -27,6 +27,25 @@ export const WatchListContainer = () => {
     const getAll = () => {
         window[ApiKey].getRootFolders().then((result: EntityModel[]) => {
             setEntityList(result);
+        });
+    };
+
+    const deleteEntity = (id: number) => {
+        console.log(id);
+    };
+
+    const updateFavorite = (id: number, favorite: number) => {
+        window[ApiKey].updateFavorite(id, favorite).then(() => {
+            setEntityList((prev) => {
+                return prev.map((each) => {
+                    if (each.id === id) {
+                        const temp = structuredClone(each);
+                        temp.favorite = favorite;
+                        return temp;
+                    }
+                    return each;
+                });
+            });
         });
     };
 
@@ -49,11 +68,10 @@ export const WatchListContainer = () => {
                 {entityList.map((entity) => (
                     <Folder
                         key={entity.id}
-                        itemId={entity.id}
-                        title={entity.name}
+                        entity={entity}
                         onClick={() => onClick(entity)}
-                        type={entity.type}
-                        progress={entity?.progress || 0}
+                        updateFavorite={updateFavorite}
+                        deleteEntity={deleteEntity}
                     />
                 ))}
             </div>

@@ -18,7 +18,8 @@ db.exec(
          path     TEXT,
          parent   INTEGER DEFAULT -1,
          type     INTEGER,
-         progress INTEGER DEFAULT 0
+         progress INTEGER DEFAULT 0,
+         favorite INTEGER DEFAULT 0
      );`
 );
 
@@ -79,12 +80,27 @@ export class Repository {
     }
 
     getAllProcessingItemsByStatus(status: ProcessingItemStatus) {
-        const stmt = db.prepare('select * from processing_item where status = ?');
+        const stmt = db.prepare('SELECT * FROM processing_item where status = ?');
         return stmt.all(status) as ProcessingItem[];
     }
 
     updateProcessingItem(id: number, status: number) {
         const stmt = db.prepare(`UPDATE processing_item SET status = ? WHERE id = ?`);
         return stmt.run(status, id);
+    }
+
+    updateFavorite(id: number, favorite: number) {
+        const stmt = db.prepare(`UPDATE folders SET favorite = ? WHERE id = ?`);
+        return stmt.run(favorite, id);
+    }
+
+    getAllFavorites() {
+        const stmt = db.prepare('SELECT * FROM folders where favorite=1');
+        return stmt.all() as ProcessingItem[];
+    }
+
+    deleteEntity(id: number) {
+        const stmt = db.prepare('DELETE FROM folders where id=?');
+        return stmt.run(id);
     }
 }

@@ -33,4 +33,12 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
     ipcMain.handle(Channel.UPDATE_PROGRESS, async (_event, id, progress) => {
         return appService.updateProgress(id, progress);
     });
+
+    ipcMain.handle(Channel.UPDATE_FAVORITE, async (_event, id, favorite) => {
+        return appService.updateFavorite(id, favorite);
+    });
+
+    ipcMain.handle(Channel.GET_ALL_FAVORITES, async () => {
+        return appService.getAllFavorites();
+    });
 };
