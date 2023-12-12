@@ -8,12 +8,24 @@
 
     .nav {
         .nav-item {
-            width: 80px;
+            width: 70px;
             font-size: 11px;
 
             &.active {
                 @include theme("background-color", $theme-primary-semi-light);
             }
+        }
+    }
+
+    .logo {
+        width: 30px;
+        height: 30px;
+        #one {
+            fill: $dark-primary-light !important;
+        }
+
+        #two, #three {
+            fill: $dark-primary-semi-light !important;
         }
     }
 }

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ROUTES } from '../Routes';
 import { useRoutesMatch } from '../hooks/useRoutesMatch';
 import { clsx } from 'clsx';
+import { Logo } from './Logo';
 
 export const Sidebar = () => {
     const isHome = useRoutesMatch(ROUTES.HOME);
@@ -13,13 +14,7 @@ export const Sidebar = () => {
     return (
         <div className="sidebar-container p-2">
             <div className="text-center my-2">
-                <Icon
-                    className="logo"
-                    iconSpritePath={iconDef}
-                    name="logo"
-                    width={20}
-                    height={20}
-                />
+                <Logo />
             </div>
 
             <ul className="d-flex flex-column gap-3 mt-4 p-0 nav">

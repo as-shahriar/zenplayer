@@ -9,6 +9,8 @@ import { useRoutesMatch } from '../hooks/useRoutesMatch';
 import { useQuery } from 'react-query';
 import { AppService } from '../services/AppService';
 import { AddButton } from '../components/AddButton';
+import { Icon } from '../components/Icon';
+import iconDef from '../assets/fonts/zenplayer-icon-defs.svg';
 
 export const WatchListPage = () => {
     const { id } = useParams();
@@ -58,12 +60,29 @@ export const WatchListPage = () => {
         AppService.updateFavorite(id, favorite).then(() => refetch());
     };
 
+    const back = () => {
+        navigate(-1);
+    };
+
     return (
         <div className="p-3 pb-1">
-            <div className="d-flex justify-content-between align-items-center">
-                <span className="fs-6">{entity?.name || 'Home'}</span>
+            <div>
+                {!isHome && (
+                    <>
+                        <button className="btn p-0" onClick={back}>
+                            <Icon
+                                className="mt-n1"
+                                iconSpritePath={iconDef}
+                                name="left-chevron"
+                                width={14}
+                                height={14}
+                            />
+                        </button>
+                        <span>{entity?.name}</span>
+                    </>
+                )}
             </div>
-            <div className="mt-4 pb-2 d-flex flex-wrap gap-2 me-n3 watch-list-content overflow-y-auto">
+            <div className="mt-3 pb-2 d-flex flex-wrap gap-2 me-n3 watch-list-content overflow-y-auto">
                 {entityList.map((entity) => (
                     <Folder
                         key={entity.id}
