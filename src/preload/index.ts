@@ -27,7 +27,7 @@ contextBridge.exposeInMainWorld(ApiKey, {
     selectFolder: () => ipcRenderer.invoke(Channel.ADD_FOLDER),
     getRootFolders: () => ipcRenderer.invoke(Channel.GET_ROOT_FOLDERS),
     getEntity: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY, id),
-    getEntityAndSibling: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY_AND_SIBLING, id),
+    getEntitySiblings: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY_SIBLINGS, id),
     getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId),
     updateProgress: (id, progress) => ipcRenderer.invoke(Channel.UPDATE_PROGRESS, id, progress),
     updateFavorite: (id, favorite) => ipcRenderer.invoke(Channel.UPDATE_FAVORITE, id, favorite),

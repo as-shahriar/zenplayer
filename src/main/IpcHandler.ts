@@ -1,9 +1,9 @@
 import { BrowserWindow, dialog, ipcMain } from 'electron';
 import { Channel } from '../constants/appConstants';
-import { AppService } from '../services/AppService';
+import { MainAppService } from './services/MainAppService';
 
 export const ipcHandler = (mainWindow: BrowserWindow) => {
-    const appService = new AppService();
+    const appService = new MainAppService();
 
     ipcMain.handle(Channel.GET_ROOT_FOLDERS, async () => {
         return appService.getAllRootEntity();
@@ -26,8 +26,8 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
         return appService.getEntity(id);
     });
 
-    ipcMain.handle(Channel.GET_ENTITY_AND_SIBLING, async (_event, id) => {
-        return appService.getEntityAndSibling(id);
+    ipcMain.handle(Channel.GET_ENTITY_SIBLINGS, async (_event, id) => {
+        return appService.getEntitySiblings(id);
     });
 
     ipcMain.handle(Channel.UPDATE_PROGRESS, async (_event, id, progress) => {

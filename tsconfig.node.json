@@ -5,10 +5,10 @@
         "src/main/*",
         "src/preload/*",
         "src/constants/*",
-        "src/services/*",
+      "src/main/services/*",
         "src/models/*",
         "src/models/enums/*",
-        "src/renderer/src/Routes.ts",
+        "src/renderer/src/Routes.ts"
     ],
     "compilerOptions": {
         "composite": true,

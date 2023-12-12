@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Repository } from '../main/Repository';
-import { FolderDetails } from '../models/FolderDetails';
-import { EntityModel } from '../models/EntityModel';
-import { EntityType } from '../models/enums/EntityType';
-import { ProcessingItemStatus } from '../models/enums/ProcessingItemStatus';
-import { HelperService } from './helperService';
+import { Repository } from '../Repository';
+import { FolderDetails } from '../../models/FolderDetails';
+import { EntityModel } from '../../models/EntityModel';
+import { EntityType } from '../../models/enums/EntityType';
+import { ProcessingItemStatus } from '../../models/enums/ProcessingItemStatus';
+import { HelperService } from './HelperService';
 
-export class AppService {
+export class MainAppService {
     readonly repository: Repository;
 
     constructor() {
@@ -86,7 +86,7 @@ export class AppService {
         return this.repository.findById(id);
     };
 
-    getEntityAndSibling = (id: number) => {
+    getEntitySiblings = (id: number) => {
         const res = this.getEntity(id);
         return this.repository.findChildren(res.parent);
     };

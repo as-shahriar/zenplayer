@@ -8,9 +8,8 @@
 
     .nav {
         .nav-item {
-            padding: 10px 20px;
-            display: inline-block;
-            width: 150px;
+            width: 80px;
+            font-size: 11px;
 
             &.active {
                 @include theme("background-color", $theme-primary-semi-light);

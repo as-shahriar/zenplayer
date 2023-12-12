@@ -4,7 +4,7 @@ export enum Channel {
     GET_CHILDREN = 'GET_CHILDREN',
     GET_ENTITY = 'GET_ENTITY',
     NAVIGATE = 'NAVIGATE',
-    GET_ENTITY_AND_SIBLING = 'GET_ENTITY_AND_SIBLING',
+    GET_ENTITY_SIBLINGS = 'GET_ENTITY_SIBLINGS',
     UPDATE_PROGRESS = 'UPDATE_PROGRESS',
     UPDATE_FAVORITE = 'UPDATE_FAVORITE',
     GET_ALL_FAVORITES = 'GET_ALL_FAVORITES'
@@ -12,3 +12,9 @@ export enum Channel {
 
 export const ApiKey = 'zenplayer-api';
 export const DB_NAME = 'zenplayer.db';
+
+export const QUERY_KEYS = {
+    GET_ALL_ENTITY: 'GET_ALL_ENTITY',
+    GET_ENTITY: 'GET_ENTITY',
+    GET_ALL_FAVORITE_ENTITY: 'GET_ALL_FAVORITE_ENTITY'
+};

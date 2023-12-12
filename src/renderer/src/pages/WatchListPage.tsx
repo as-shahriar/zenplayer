@@ -1,19 +1,45 @@
 import { Folder } from '../components/Folder';
-import { ApiKey } from '../../../constants/appConstants';
-import { useEffect, useState } from 'react';
+import { QUERY_KEYS } from '../../../constants/appConstants';
 import { EntityModel } from '../../../models/EntityModel';
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
 import 'plyr-react/plyr.css';
 import { ROUTES } from '../Routes';
 import { EntityType } from '../../../models/enums/EntityType';
-import { AddButton } from '../components/AddButton';
 import { useRoutesMatch } from '../hooks/useRoutesMatch';
+import { useQuery } from 'react-query';
+import { AppService } from '../services/AppService';
+import { AddButton } from '../components/AddButton';
 
 export const WatchListPage = () => {
-    const [entityList, setEntityList] = useState<EntityModel[]>([]);
     const { id } = useParams();
     const isHome = useRoutesMatch(ROUTES.HOME);
     const navigate = useNavigate();
+
+    const getEntityData = () => {
+        if (id) {
+            return AppService.getChildren(id);
+        } else {
+            return AppService.getRootFolders();
+        }
+    };
+
+    const getEntity = () => {
+        if (id) {
+            return AppService.getEntity(id);
+        }
+        return undefined;
+    };
+
+    const { data: entityList = [], refetch } = useQuery(
+        [QUERY_KEYS.GET_ALL_ENTITY, id],
+        getEntityData,
+        {
+            staleTime: 0,
+            refetchInterval: 3000
+        }
+    );
+
+    const { data: entity } = useQuery([QUERY_KEYS.GET_ENTITY, id], getEntity);
 
     const onClick = (entity: EntityModel) => {
         if (entity.type === EntityType.Folder) {
@@ -24,47 +50,20 @@ export const WatchListPage = () => {
         }
     };
 
-    const getAll = () => {
-        window[ApiKey].getRootFolders().then((result: EntityModel[]) => {
-            setEntityList(result);
-        });
-    };
-
     const deleteEntity = (id: number) => {
         console.log(id);
     };
 
     const updateFavorite = (id: number, favorite: number) => {
-        window[ApiKey].updateFavorite(id, favorite).then(() => {
-            setEntityList((prev) => {
-                return prev.map((each) => {
-                    if (each.id === id) {
-                        const temp = structuredClone(each);
-                        temp.favorite = favorite;
-                        return temp;
-                    }
-                    return each;
-                });
-            });
-        });
+        AppService.updateFavorite(id, favorite).then(() => refetch());
     };
-
-    useEffect(() => {
-        if (id) {
-            window[ApiKey].getChildren(id).then((result: EntityModel[]) => {
-                setEntityList(result);
-            });
-        } else {
-            getAll();
-        }
-    }, [id]);
 
     return (
         <div className="p-3 pb-1">
             <div className="d-flex justify-content-between align-items-center">
-                <span className="fs-6">Watch List</span>
+                <span className="fs-6">{entity?.name || 'Home'}</span>
             </div>
-            <div className="mt-4 pb-2 d-flex flex-wrap gap-4 me-n3 watch-list-content overflow-y-auto">
+            <div className="mt-4 pb-2 d-flex flex-wrap gap-2 me-n3 watch-list-content overflow-y-auto">
                 {entityList.map((entity) => (
                     <Folder
                         key={entity.id}
@@ -75,7 +74,7 @@ export const WatchListPage = () => {
                     />
                 ))}
             </div>
-            {isHome && <AddButton refreshList={getAll} />}
+            {isHome && <AddButton refreshList={refetch} />}
         </div>
     );
 };
