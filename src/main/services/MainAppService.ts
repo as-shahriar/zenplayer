@@ -6,6 +6,7 @@ import { EntityModel } from '../../models/EntityModel';
 import { EntityType } from '../../models/enums/EntityType';
 import { ProcessingItemStatus } from '../../models/enums/ProcessingItemStatus';
 import { HelperService } from './HelperService';
+import { ProcessingItemType } from '../../models/enums/ProcessingItemType';
 
 export class MainAppService {
     readonly repository: Repository;
@@ -92,12 +93,12 @@ export class MainAppService {
     };
 
     updateProgress = async (id: number, progress: number) => {
-        this.repository.addProcessingItem(id);
+        this.repository.addProcessingItem(id, ProcessingItemType.PROGRESS);
         return this.repository.updateProgress(id, progress);
     };
 
-    getAllProcessingItemsByStatus = (status: ProcessingItemStatus) => {
-        return this.repository.getAllProcessingItemsByStatus(status);
+    getAllProcessingItemsByStatus = (status: ProcessingItemStatus, type: ProcessingItemType) => {
+        return this.repository.getAllProcessingItemsByStatusAndType(status, type);
     };
 
     updateProcessingItem = (id: number, status: number) => {
@@ -122,7 +123,7 @@ export class MainAppService {
     };
 
     checkAndRunProcess = (status: ProcessingItemStatus) => {
-        const items = this.getAllProcessingItemsByStatus(status);
+        const items = this.getAllProcessingItemsByStatus(status, ProcessingItemType.PROGRESS);
         items.forEach((item) => {
             this.syncParents(item.id, item.id);
         });
@@ -144,5 +145,31 @@ export class MainAppService {
 
     getAllFavorites = () => {
         return this.repository.getAllFavorites();
+    };
+
+    prepareDeletedChildId = (id: number) => {
+        let previousIds = [id];
+        const children = this.repository.findChildren(id);
+        for (const item of children) {
+            const childIds = this.prepareDeletedChildId(item.id);
+            previousIds = previousIds.concat(childIds);
+        }
+        return previousIds;
+    };
+
+    deleteEntity = (id: number) => {
+        const ids = this.prepareDeletedChildId(id);
+        if (id !== -1) {
+            const entity = this.repository.findById(id);
+            const siblings = this.repository
+                .findChildren(entity.parent)
+                .filter((item) => item.id !== id);
+            if (siblings.length > 0) {
+                this.repository.addProcessingItem(siblings[0].id, ProcessingItemType.PROGRESS);
+            } else {
+                this.repository.addProcessingItem(entity.parent, ProcessingItemType.PROGRESS);
+            }
+        }
+        this.repository.deleteEntities(ids);
     };
 }

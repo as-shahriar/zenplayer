@@ -1,5 +1,5 @@
 import { generatePath, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { EntityModel } from '../../../models/EntityModel';
 import { EntityType } from '../../../models/enums/EntityType';
 import { VideoPlayer } from '../components/VideoPlayer';
@@ -45,6 +45,10 @@ export const VideoPage = () => {
         }
     };
 
+    const goBack = useCallback(() => {
+        navigate(-1);
+    }, [navigate]);
+
     useEffect(() => {
         if (id) {
             AppService.getEntitySiblings(id).then((result: EntityModel[]) => {
@@ -66,6 +70,7 @@ export const VideoPage = () => {
                 playNext={playNext}
                 setPlaylist={setPlaylist}
                 updateProgress={updateVideoProgress}
+                goBack={goBack}
             />
             {playlist && <Playlist videoList={videoList} activeVideo={selectedVideo} play={play} />}
         </div>

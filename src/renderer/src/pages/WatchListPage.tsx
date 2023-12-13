@@ -53,7 +53,9 @@ export const WatchListPage = () => {
     };
 
     const deleteEntity = (id: number) => {
-        console.log(id);
+        AppService.deleteEntity(id).then(() => {
+            void refetch();
+        });
     };
 
     const updateFavorite = (id: number, favorite: number) => {
@@ -61,7 +63,13 @@ export const WatchListPage = () => {
     };
 
     const back = () => {
-        navigate(-1);
+        let link: string;
+        if (entity?.parent !== -1) {
+            link = generatePath(ROUTES.WATCH_LIST_BY_ID, { id: entity?.parent });
+        } else {
+            link = ROUTES.HOME;
+        }
+        navigate(link);
     };
 
     return (

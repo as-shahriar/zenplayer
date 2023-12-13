@@ -10,4 +10,13 @@
     .plyr {
         height: 100vh !important;
     }
+
+    .topbar-container {
+        background: linear-gradient(#000000bf,#0000);
+
+        z-index: 2;
+        .btn {
+            font-size: 12px;
+        }
+    }
 }

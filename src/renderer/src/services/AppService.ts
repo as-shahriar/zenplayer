@@ -29,4 +29,8 @@ export class AppService {
     static getEntity(id: string): Promise<EntityModel> {
         return window[ApiKey].getEntity(id);
     }
+
+    static deleteEntity(id: number): Promise<EntityModel> {
+        return window[ApiKey].deleteEntity(id);
+    }
 }

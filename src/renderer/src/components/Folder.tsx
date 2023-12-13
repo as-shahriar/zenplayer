@@ -22,6 +22,7 @@ const DELETE = 'delete';
 export const Folder = (props: FolderProps) => {
     const { entity, onClick, updateFavorite, deleteEntity } = props;
     const isHome = useRoutesMatch(ROUTES.HOME);
+    const isWatchList = useRoutesMatch(ROUTES.WATCH_LIST_BY_ID);
 
     const handleItemClick = useCallback(
         ({ id }: any) => {
@@ -67,7 +68,7 @@ export const Folder = (props: FolderProps) => {
                         Remove from Favorites
                     </Item>
                 )}
-                {isHome && (
+                {(isHome || isWatchList) && (
                     <Item id={DELETE} onClick={handleItemClick}>
                         <Icon
                             className="me-2"

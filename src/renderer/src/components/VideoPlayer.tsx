@@ -4,6 +4,8 @@ import { APITypes, PlyrInstance, PlyrSource, usePlyr } from 'plyr-react';
 import { EntityModel } from '../../../models/EntityModel';
 import playlistIcon from '../assets/icons/playlist.svg';
 import './VideoPlayer.scss';
+import { Icon } from './Icon';
+import iconDef from '../assets/fonts/zenplayer-icon-defs.svg';
 
 type VideoProps = {
     videoSrc: EntityModel | null;
@@ -11,6 +13,7 @@ type VideoProps = {
     playNext: () => void;
     setPlaylist: Dispatch<SetStateAction<boolean>>;
     updateProgress: (total: number, current: number) => void;
+    goBack: () => void;
 };
 
 const options = {
@@ -28,7 +31,7 @@ const shouldApplyProgress = (progress?: number) => {
 };
 
 export const VideoPlayer = (props: VideoProps) => {
-    const { playlist, videoSrc, playNext, setPlaylist, updateProgress } = props;
+    const { playlist, videoSrc, playNext, setPlaylist, updateProgress, goBack } = props;
     const ref = useRef<APITypes>(null);
     const videoProgress = useRef(0);
     const updateCurrentTimeRef = useRef<boolean>(false);
@@ -101,7 +104,19 @@ export const VideoPlayer = (props: VideoProps) => {
     }, [videoSrc?.id]);
 
     return (
-        <div className={`video-container ${playlist ? 'show-playlist' : ''}`}>
+        <div className={`video-container position-relative ${playlist ? 'show-playlist' : ''}`}>
+            <div className="topbar-container w-100 position-absolute top-0 p-2">
+                <button className="btn px-1 ms-1" onClick={goBack}>
+                    <Icon
+                        className="mt-n1"
+                        iconSpritePath={iconDef}
+                        name="left-chevron"
+                        width={16}
+                        height={16}
+                    />
+                    Back
+                </button>
+            </div>
             <video
                 ref={raptorRef as React.MutableRefObject<HTMLVideoElement>}
                 className="plyr-react plyr"

@@ -41,4 +41,8 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
     ipcMain.handle(Channel.GET_ALL_FAVORITES, async () => {
         return appService.getAllFavorites();
     });
+
+    ipcMain.handle(Channel.DELETE_ENTITY, async (_event, id) => {
+        return appService.deleteEntity(id);
+    });
 };

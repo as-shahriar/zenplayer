@@ -27,7 +27,8 @@ db.exec(
     `CREATE TABLE IF NOT EXISTS processing_item
      (
          id       INTEGER PRIMARY KEY,
-         status INTEGER
+         status INTEGER,
+         type INTEGER
      );`
 );
 
@@ -72,16 +73,16 @@ export class Repository {
         return stmt.run(progress, id);
     }
 
-    addProcessingItem(id: number) {
+    addProcessingItem(id: number, type: number) {
         const stmt = db.prepare(
-            `INSERT OR REPLACE INTO processing_item (id, status) VALUES (?, 0)`
+            `INSERT OR REPLACE INTO processing_item (id, status, type) VALUES (?, 0, ?)`
         );
-        return stmt.run(id);
+        return stmt.run(id, type);
     }
 
-    getAllProcessingItemsByStatus(status: ProcessingItemStatus) {
-        const stmt = db.prepare('SELECT * FROM processing_item where status = ?');
-        return stmt.all(status) as ProcessingItem[];
+    getAllProcessingItemsByStatusAndType(status: ProcessingItemStatus, type: number) {
+        const stmt = db.prepare('SELECT * FROM processing_item where status = ? and type = ?');
+        return stmt.all(status, type) as ProcessingItem[];
     }
 
     updateProcessingItem(id: number, status: number) {
@@ -99,8 +100,10 @@ export class Repository {
         return stmt.all() as ProcessingItem[];
     }
 
-    deleteEntity(id: number) {
+    deleteEntities(ids: number[]) {
         const stmt = db.prepare('DELETE FROM folders where id=?');
-        return stmt.run(id);
+        for (const id of ids) {
+            stmt.run(id);
+        }
     }
 }
