@@ -76,8 +76,8 @@ export const WatchListPage = () => {
         <div className="p-3 pb-1">
             <div>
                 {!isHome && (
-                    <>
-                        <button className="btn p-0" onClick={back}>
+                    <div className="d-flex">
+                        <button className="btn btn-back p-0" onClick={back}>
                             <Icon
                                 className="mt-n1"
                                 iconSpritePath={iconDef}
@@ -85,9 +85,10 @@ export const WatchListPage = () => {
                                 width={14}
                                 height={14}
                             />
+                            Back
                         </button>
-                        <span>{entity?.name}</span>
-                    </>
+                        <div className="flex-grow-1 text-center">{entity?.name}</div>
+                    </div>
                 )}
             </div>
             <div className="mt-3 pb-2 d-flex flex-wrap gap-2 me-n3 watch-list-content overflow-y-auto">

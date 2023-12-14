@@ -106,4 +106,9 @@ export class Repository {
             stmt.run(id);
         }
     }
+
+    deleteProcessingItem = (id: number) => {
+        const stmt = db.prepare('DELETE FROM processing_item where id=?');
+        stmt.run(id);
+    };
 }

@@ -8,18 +8,33 @@
 
     .nav {
         .nav-item {
-            width: 70px;
-            font-size: 11px;
+            width: 40px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+        }
 
-            &.active {
-                @include theme("background-color", $theme-primary-semi-light);
-            }
+        .active .nav-item {
+            @include theme("background-color", $theme-primary-semi-light);
+        }
+
+        .nav-text {
+            display: block;
+            visibility: hidden;
+            text-align: center;
+            margin-top: 4px;
+            font-size: 11px;
+        }
+
+        .active .nav-text {
+            visibility: visible;
         }
     }
 
     .logo {
         width: 30px;
         height: 30px;
+
         #one {
             fill: $dark-primary-light !important;
         }

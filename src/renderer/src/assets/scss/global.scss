@@ -18,6 +18,10 @@ body {
         &, &:active {
             border-color: transparent !important;
         }
+
+        &.btn-back {
+            font-size: 12px;
+        }
     }
 }
 

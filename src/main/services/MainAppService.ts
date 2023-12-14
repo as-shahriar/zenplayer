@@ -76,33 +76,76 @@ export class MainAppService {
     };
 
     getAllRootEntity = () => {
-        return this.repository.findAllRoot();
+        try {
+            return this.repository.findAllRoot();
+        } catch (err) {
+            console.log(err);
+        }
+        return [];
     };
 
     getChildren = (parentId: number) => {
-        return this.repository.findChildren(parentId);
+        try {
+            return this.repository.findChildren(parentId);
+        } catch (err) {
+            console.log(err);
+        }
+        return [];
     };
 
     getEntity = (id: number) => {
-        return this.repository.findById(id);
+        try {
+            return this.repository.findById(id);
+        } catch (err) {
+            console.log(err);
+        }
+        return;
     };
 
     getEntitySiblings = (id: number) => {
-        const res = this.getEntity(id);
-        return this.repository.findChildren(res.parent);
+        try {
+            const res = this.getEntity(id);
+            if (res) {
+                return this.repository.findChildren(res.parent);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+        return [];
     };
 
     updateProgress = async (id: number, progress: number) => {
-        this.repository.addProcessingItem(id, ProcessingItemType.PROGRESS);
-        return this.repository.updateProgress(id, progress);
+        try {
+            this.repository.addProcessingItem(id, ProcessingItemType.PROGRESS);
+            this.repository.updateProgress(id, progress);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     getAllProcessingItemsByStatus = (status: ProcessingItemStatus, type: ProcessingItemType) => {
-        return this.repository.getAllProcessingItemsByStatusAndType(status, type);
+        try {
+            return this.repository.getAllProcessingItemsByStatusAndType(status, type);
+        } catch (err) {
+            console.log(err);
+        }
+        return [];
     };
 
     updateProcessingItem = (id: number, status: number) => {
-        return this.repository.updateProcessingItem(id, status);
+        try {
+            this.repository.updateProcessingItem(id, status);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    deleteProcessingItem = (id: number) => {
+        try {
+            this.repository.deleteProcessingItem(id);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     syncParents = (id: number, processId: number) => {
@@ -110,16 +153,21 @@ export class MainAppService {
             this.updateProcessingItem(processId, ProcessingItemStatus.COMPLETED);
             return;
         }
-        this.updateProcessingItem(processId, ProcessingItemStatus.IN_PROGRESS);
         const item = this.getEntity(id);
-        const siblings = this.getChildren(item?.parent);
-        let progress = 0;
-        for (const each of siblings) {
-            progress += each?.progress || 0;
+        if (item === undefined) {
+            this.deleteProcessingItem(processId);
         }
-        progress = progress / siblings?.length;
-        void this.repository.updateProgress(item.parent, progress);
-        this.syncParents(item.parent, processId);
+        this.updateProcessingItem(processId, ProcessingItemStatus.IN_PROGRESS);
+        if (item) {
+            const siblings = this.getChildren(item?.parent);
+            let progress = 0;
+            for (const each of siblings) {
+                progress += each?.progress || 0;
+            }
+            progress = progress / siblings?.length;
+            void this.repository.updateProgress(item.parent, progress);
+            this.syncParents(item.parent, processId);
+        }
     };
 
     checkAndRunProcess = (status: ProcessingItemStatus) => {

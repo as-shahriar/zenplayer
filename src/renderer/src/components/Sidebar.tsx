@@ -17,42 +17,24 @@ export const Sidebar = () => {
                 <Logo />
             </div>
 
-            <ul className="d-flex flex-column gap-3 mt-4 p-0 nav">
-                <li>
-                    <Link
-                        to={ROUTES.HOME}
-                        className={clsx(
-                            'nav-item rounded d-flex flex-column align-items-center gap-1 p-2',
-                            isHome && 'active'
-                        )}
-                    >
+            <ul className="d-flex flex-column gap-2 mt-4 p-0 nav">
+                <li className={clsx(isHome && 'active')}>
+                    <Link to={ROUTES.HOME} className="nav-item rounded p-2">
                         <Icon iconSpritePath={iconDef} name="home" width={19} height={19} />
-                        <span>Home</span>
                     </Link>
+                    <span className="nav-text">Home</span>
                 </li>
-                <li>
-                    <Link
-                        to={ROUTES.FAVORITES}
-                        className={clsx(
-                            'nav-item rounded d-flex flex-column align-items-center gap-1 p-2',
-                            isFavorite && 'active'
-                        )}
-                    >
+                <li className={clsx(isFavorite && 'active')}>
+                    <Link to={ROUTES.FAVORITES} className="nav-item rounded p-2">
                         <Icon iconSpritePath={iconDef} name="heart-solid" width={19} height={19} />
-                        <span>Favorites</span>
                     </Link>
+                    <span className="nav-text">Favorites</span>
                 </li>
-                <li>
-                    <Link
-                        to={ROUTES.SETTINGS}
-                        className={clsx(
-                            'nav-item rounded d-flex flex-column align-items-center gap-1 p-2',
-                            isSettings && 'active'
-                        )}
-                    >
+                <li className={clsx(isSettings && 'active')}>
+                    <Link to={ROUTES.SETTINGS} className="nav-item rounded p-2">
                         <Icon iconSpritePath={iconDef} name="gear" width={19} height={19} />
-                        <span>Settings</span>
                     </Link>
+                    <span className="nav-text">Settings</span>
                 </li>
             </ul>
         </div>
