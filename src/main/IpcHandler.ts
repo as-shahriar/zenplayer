@@ -4,15 +4,16 @@ import { MainAppService } from './services/MainAppService';
 
 export const ipcHandler = (mainWindow: BrowserWindow) => {
     const appService = new MainAppService();
-
+    ipcMain.removeHandler(Channel.GET_ROOT_FOLDERS);
     ipcMain.handle(Channel.GET_ROOT_FOLDERS, async () => {
         return appService.getAllRootEntity();
     });
 
+    ipcMain.removeHandler(Channel.GET_CHILDREN);
     ipcMain.handle(Channel.GET_CHILDREN, async (_event, parentId) => {
         return appService.getChildren(parentId);
     });
-
+    ipcMain.removeHandler(Channel.ADD_FOLDER);
     ipcMain.handle(Channel.ADD_FOLDER, async () => {
         const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
             properties: ['openDirectory']
@@ -22,26 +23,32 @@ export const ipcHandler = (mainWindow: BrowserWindow) => {
         }
     });
 
+    ipcMain.removeHandler(Channel.GET_ENTITY);
     ipcMain.handle(Channel.GET_ENTITY, async (_event, id) => {
         return appService.getEntity(id);
     });
 
+    ipcMain.removeHandler(Channel.GET_ENTITY_SIBLINGS);
     ipcMain.handle(Channel.GET_ENTITY_SIBLINGS, async (_event, id) => {
         return appService.getEntitySiblings(id);
     });
 
+    ipcMain.removeHandler(Channel.UPDATE_PROGRESS);
     ipcMain.handle(Channel.UPDATE_PROGRESS, async (_event, id, progress) => {
         return appService.updateProgress(id, progress);
     });
 
+    ipcMain.removeHandler(Channel.UPDATE_FAVORITE);
     ipcMain.handle(Channel.UPDATE_FAVORITE, async (_event, id, favorite) => {
         return appService.updateFavorite(id, favorite);
     });
 
+    ipcMain.removeHandler(Channel.GET_ALL_FAVORITES);
     ipcMain.handle(Channel.GET_ALL_FAVORITES, async () => {
         return appService.getAllFavorites();
     });
 
+    ipcMain.removeHandler(Channel.DELETE_ENTITY);
     ipcMain.handle(Channel.DELETE_ENTITY, async (_event, id) => {
         return appService.deleteEntity(id);
     });
