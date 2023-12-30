@@ -24,6 +24,7 @@
             text-align: center;
             margin-top: 4px;
             font-size: 11px;
+            @include theme("color", $theme-sidebar-color);
         }
 
         .active .nav-text {

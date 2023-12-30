@@ -9,7 +9,7 @@
         box-shadow: 0 0 2px rgba(0, 0, 0, 0.02);
 
         .contexify_itemContent {
-            @include theme("color", $theme-color);
+            @include theme("color", $theme-sidebar-color);
 
             &:hover {
                 @include theme("background-color", $theme-primary-semi-light);

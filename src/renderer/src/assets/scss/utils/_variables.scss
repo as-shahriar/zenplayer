@@ -2,33 +2,56 @@
 
 $dark-theme: "dark-theme";
 $light-theme: "light-theme";
+$blue-theme: "blue-theme";
 
-$dark-primary: #0F2D6B;
-$dark-secondary: #002062;
-$dark-primary-semi-light: #0E45B6;
+$primary: #5E9FFF;
+$secondary: #E0F4FF;
+$primary-semi-light: #447fd2;
+$primary-light: #87C4FF;
+
+$dark-primary: #202124;
+$dark-secondary: #282C2F;
+$dark-primary-semi-light: #323639;
 $dark-primary-light: #5E9FFF;
+
+$blue-primary: #0F2D6B;
+$blue-secondary: #002062;
+$blue-primary-semi-light: #0E45B6;
+$blue-primary-light: #5E9FFF;
 
 $theme-bg: "theme-bg";
 $theme-color: "theme-color";
 $theme-sidebar-bg: "theme-sidebar-bg";
+$theme-sidebar-color: "theme-sidebar-color";
 $theme-primary-semi-light: "theme-primary-semi-light";
 
 
 $light-theme-colors: (
-    $theme-bg: $dark-secondary,
+    $theme-bg: $secondary,
     $theme-color: $black,
-    $theme-sidebar-bg: $dark-primary,
-    $theme-primary-semi-light: $dark-primary-semi-light,
+    $theme-sidebar-bg: $primary,
+    $theme-sidebar-color: $white,
+    $theme-primary-semi-light: $primary-semi-light,
 );
 
 $dark-theme-colors: (
     $theme-bg: $dark-secondary,
     $theme-color: $white,
     $theme-sidebar-bg: $dark-primary,
+    $theme-sidebar-color: $white,
     $theme-primary-semi-light: $dark-primary-semi-light
+);
+
+$blue-theme-colors: (
+    $theme-bg: $blue-secondary,
+    $theme-color: $white,
+    $theme-sidebar-bg: $blue-primary,
+    $theme-sidebar-color: $white,
+    $theme-primary-semi-light: $blue-primary-semi-light
 );
 
 $themes: (
     $light-theme: $light-theme-colors,
-    $dark-theme: $dark-theme-colors
+    $dark-theme: $dark-theme-colors,
+    $blue-theme: $blue-theme-colors
 ) !default;

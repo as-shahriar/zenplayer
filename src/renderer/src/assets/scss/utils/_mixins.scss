@@ -13,11 +13,16 @@
 @mixin processTheme($module, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties) {
     $light: map-get($themes, $light-theme);
     $dark: map-get($themes, $dark-theme);
+    $blue: map-get($themes, $blue-theme);
 
     @include themeProperty($light, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties);
 
     .#{$dark-theme} & {
         @include themeProperty($dark, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
+    }
+
+    .#{$blue-theme} & {
+        @include themeProperty($blue, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
     }
 }
 
@@ -38,7 +43,7 @@
         .progress {
             height: $progress-height;
             border-radius: 4px;
-            @include theme("background-color", $theme-primary-semi-light);
+            background-color: #275EAF;
         }
     }
 }

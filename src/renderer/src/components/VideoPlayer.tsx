@@ -57,7 +57,6 @@ export const VideoPlayer = (props: VideoProps) => {
         const api = current as {
             plyr: PlyrInstance;
         };
-        api.plyr.on('ready', () => console.log("I'm ready"));
         api.plyr.on('canplay', () => {
             if (
                 videoSrc?.progress !== undefined &&
