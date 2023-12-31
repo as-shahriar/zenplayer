@@ -4,7 +4,6 @@
 
     &.show-playlist {
         max-width: calc(100vw - 300px);
-
     }
 
     .plyr {
@@ -13,10 +12,27 @@
 
     .topbar-container {
         background: linear-gradient(#000000bf,#0000);
+        opacity: 1;
+        transform: translateY(0);
+        transition: opacity .4s ease-in-out,transform .4s ease-in-out;
 
         z-index: 2;
-        .btn {
+        .btn-back {
             font-size: 12px;
+            color: #fff;
+
+            svg {
+                fill: #fff !important;
+            }
+        }
+
+        &.show {
+
+        }
+
+        &.hide {
+            opacity: 0;
+            transform: translateY(-55px);
         }
     }
 }

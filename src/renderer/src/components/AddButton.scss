@@ -12,4 +12,10 @@
     height: $btn-size;
 
     @include theme("background-color", $theme-sidebar-bg);
+
+    &:hover,
+    &:focus-visible,
+    &:active {
+        @include theme("background-color", $theme-primary-semi-light, false, "!important");
+    }
 }

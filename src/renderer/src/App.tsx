@@ -1,22 +1,19 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { WatchListPage } from './pages/WatchListPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { ROUTES } from './Routes';
 import { VideoPage } from './pages/VideoPage';
-import { ApiKey, Channel } from '../../constants/appConstants';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { Layout } from './components/Layout';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { CommonUtil } from './services/CommonUtil';
 
 const App = () => {
-    const navigate = useNavigate();
     const queryClient = new QueryClient();
 
-    useEffect(() => {
-        window[ApiKey].navigate(Channel.NAVIGATE, function (url: string) {
-            navigate(url);
-        });
+    useLayoutEffect(() => {
+        CommonUtil.applyTheme();
     }, []);
 
     return (

@@ -5,7 +5,7 @@
 .playlist-container {
     width: 300px;
     right: 0;
-    @include theme("background-color", $theme-sidebar-bg);
+    @include theme("background-color", $theme-bg);
 
     .playlist-item {
         font-size: 12px;
@@ -17,7 +17,7 @@
         }
 
         &.active {
-            @include theme("background-color", $theme-primary-semi-light);
+            @include theme("background-color", $theme-primary-light);
         }
 
         @include progressStyle(21px, 2px, 9px, 11px);

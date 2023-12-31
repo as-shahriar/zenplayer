@@ -102,24 +102,57 @@ export const VideoPlayer = (props: VideoProps) => {
         updateCurrentTimeRef.current = shouldApplyProgress(videoSrc?.progress);
     }, [videoSrc?.id]);
 
+    useEffect(() => {
+        let timeout: any;
+        const element = document.querySelector('.topbar-container') as HTMLElement;
+        const onMouseMove = () => {
+            if (element?.classList.contains('hide')) {
+                element?.classList.remove('hide');
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    element?.classList.add('hide');
+                }, 2000);
+            }
+        };
+        const onMouseOver = () => {
+            clearTimeout(timeout);
+            element?.classList.remove('hide');
+        };
+
+        const onMouseOut = () => {
+            element?.classList.add('hide');
+        };
+
+        window.addEventListener('mousemove', onMouseMove);
+        element?.addEventListener('mouseover', onMouseOver);
+        element?.addEventListener('mouseout', onMouseOut);
+
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener('mousemove', onMouseMove);
+            element?.removeEventListener('mouseover', onMouseOver);
+            element?.removeEventListener('mouseout', onMouseOut);
+        };
+    }, []);
+
     return (
         <div className={`video-container position-relative ${playlist ? 'show-playlist' : ''}`}>
-            <div className="topbar-container w-100 position-absolute top-0 p-2">
-                <button className="btn px-1 ms-1" onClick={goBack}>
-                    <Icon
-                        className="mt-n1"
-                        iconSpritePath={iconDef}
-                        name="left-chevron"
-                        width={16}
-                        height={16}
-                    />
-                    Back
-                </button>
-            </div>
             <video
                 ref={raptorRef as React.MutableRefObject<HTMLVideoElement>}
                 className="plyr-react plyr"
             />
+            <div className="topbar-container hide w-100 position-absolute top-0 p-2">
+                <button className="btn btn-back px-1 ms-1" onClick={goBack}>
+                    <Icon
+                        className="mt-n1 me-1"
+                        iconSpritePath={iconDef}
+                        name="left-arrow"
+                        width={10}
+                        height={10}
+                    />
+                    Back
+                </button>
+            </div>
         </div>
     );
 };

@@ -4,9 +4,6 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 import { db } from './Repository';
 import { ipcHandler } from './IpcHandler';
-import contextMenu from 'electron-context-menu';
-import { ROUTES } from '../renderer/src/Routes';
-import { Channel } from '../constants/appConstants';
 import { MainAppService } from './services/MainAppService';
 
 const mainAppService = new MainAppService();
@@ -102,18 +99,3 @@ app.whenReady().then(() => {
 });
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
-
-contextMenu({
-    menu: (actions, _props, browserWindow) => [
-        actions.separator(),
-        {
-            label: 'Settings',
-            click: () => {
-                (browserWindow as BrowserWindow).webContents.send(
-                    Channel.NAVIGATE,
-                    ROUTES.SETTINGS
-                );
-            }
-        }
-    ]
-});

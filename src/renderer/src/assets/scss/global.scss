@@ -15,12 +15,40 @@ body {
     .btn {
         @include theme("color", $theme-color);
 
+        &:focus-visible {
+            @include theme("border-color", $theme-color, false, '!important');
+        }
+
         &, &:active {
             border-color: transparent !important;
         }
 
         &.btn-back {
             font-size: 12px;
+
+            svg {
+                @include theme("fill", $theme-color, false, '!important');
+            }
+        }
+    }
+
+    .dropdown {
+        .dropdown-toggle {
+            font-size: 12px;
+        }
+
+        .dropdown-menu {
+            @include theme("background-color", $theme-sidebar-bg);
+            font-size: 12px;
+
+            .dropdown-item {
+                @include theme("color", $theme-sidebar-color);
+
+                &:hover,
+                &:focus-visible{
+                    @include theme("background-color", $theme-primary-semi-light);
+                }
+            }
         }
     }
 }

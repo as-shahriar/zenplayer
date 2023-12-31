@@ -79,11 +79,11 @@ export const WatchListPage = () => {
                     <div className="d-flex">
                         <button className="btn btn-back p-0" onClick={back}>
                             <Icon
-                                className="mt-n1"
+                                className="mt-n1 me-1"
                                 iconSpritePath={iconDef}
-                                name="left-chevron"
-                                width={14}
-                                height={14}
+                                name="left-arrow"
+                                width={10}
+                                height={10}
                             />
                             Back
                         </button>
