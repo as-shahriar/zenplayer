@@ -100,6 +100,7 @@ export const VideoPlayer = (props: VideoProps) => {
 
     useEffect(() => {
         updateCurrentTimeRef.current = shouldApplyProgress(videoSrc?.progress);
+        videoProgress.current = 0;
     }, [videoSrc?.id]);
 
     useEffect(() => {
