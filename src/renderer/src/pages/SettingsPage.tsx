@@ -3,6 +3,7 @@ import { AppTheme } from '../../../models/enums/AppTheme';
 import { CommonUtil } from '../services/CommonUtil';
 import { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
+import { APP_VERSION } from '../../../constants/appConstants';
 
 export const SettingsPage = () => {
     const [theme, setTheme] = useState<AppTheme>(AppTheme.LIGHT);
@@ -36,6 +37,17 @@ export const SettingsPage = () => {
                     <DropdownMenu>{renderThemeItem()}</DropdownMenu>
                 </UncontrolledDropdown>
             </div>
+            <footer className="position-absolute bottom-0 right-0 px-2 py-1">
+                <a
+                    className="link-primary"
+                    target="_blank"
+                    href="https://github.com/asifo1/zenplayer"
+                    rel="noreferrer"
+                >
+                    GitHub Repository
+                </a>
+                <span className="ms-2">version {APP_VERSION}</span>
+            </footer>
         </div>
     );
 };

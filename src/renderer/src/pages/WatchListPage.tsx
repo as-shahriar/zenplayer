@@ -11,18 +11,21 @@ import { AppService } from '../services/AppService';
 import { AddButton } from '../components/AddButton';
 import { Icon } from '../components/Icon';
 import iconDef from '../assets/fonts/zenplayer-icon-defs.svg';
+import { sortBy } from 'lodash';
 
 export const WatchListPage = () => {
     const { id } = useParams();
     const isHome = useRoutesMatch(ROUTES.HOME);
     const navigate = useNavigate();
 
-    const getEntityData = () => {
+    const getEntityData = async () => {
+        let entityList: EntityModel[] = [];
         if (id) {
-            return AppService.getChildren(id);
+            entityList = await AppService.getChildren(id);
         } else {
-            return AppService.getRootFolders();
+            entityList = await AppService.getRootFolders();
         }
+        return sortBy(entityList, ['name']);
     };
 
     const getEntity = () => {
