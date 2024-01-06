@@ -9,23 +9,23 @@ import { useRoutesMatch } from '../hooks/useRoutesMatch';
 import { useQuery } from 'react-query';
 import { AppService } from '../services/AppService';
 import { AddButton } from '../components/AddButton';
-import { Icon } from '../components/Icon';
-import iconDef from '../assets/fonts/zenplayer-icon-defs.svg';
-import { sortBy } from 'lodash';
+import { Topbar } from '../components/Topbar';
+import { useEffect, useState } from 'react';
 
 export const WatchListPage = () => {
     const { id } = useParams();
     const isHome = useRoutesMatch(ROUTES.HOME);
     const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const getEntityData = async () => {
+    const getEntityList = async () => {
         let entityList: EntityModel[] = [];
         if (id) {
-            entityList = await AppService.getChildren(id);
+            entityList = await AppService.getChildren(id, searchTerm);
         } else {
-            entityList = await AppService.getRootFolders();
+            entityList = await AppService.getRootFolders(searchTerm);
         }
-        return sortBy(entityList, ['name']);
+        return entityList;
     };
 
     const getEntity = () => {
@@ -36,8 +36,8 @@ export const WatchListPage = () => {
     };
 
     const { data: entityList = [], refetch } = useQuery(
-        [QUERY_KEYS.GET_ALL_ENTITY, id],
-        getEntityData,
+        [QUERY_KEYS.GET_ALL_ENTITY, id, searchTerm],
+        getEntityList,
         {
             staleTime: 0,
             refetchInterval: 3000
@@ -77,23 +77,12 @@ export const WatchListPage = () => {
 
     return (
         <div className="p-3 pb-1">
-            <div>
-                {!isHome && (
-                    <div className="d-flex">
-                        <button className="btn btn-back p-0" onClick={back}>
-                            <Icon
-                                className="mt-n1 me-1"
-                                iconSpritePath={iconDef}
-                                name="left-arrow"
-                                width={10}
-                                height={10}
-                            />
-                            Back
-                        </button>
-                        <div className="flex-grow-1 text-center">{entity?.name}</div>
-                    </div>
-                )}
-            </div>
+            <Topbar
+                title={entity?.name || ''}
+                goBack={back}
+                isHome={!!isHome}
+                onSearch={setSearchTerm}
+            />
             <div className="mt-3 pb-2 d-flex flex-wrap gap-2 me-n3 watch-list-content overflow-y-auto">
                 {entityList.map((entity) => (
                     <Folder

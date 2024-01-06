@@ -5,13 +5,13 @@ import { MainAppService } from './services/MainAppService';
 export const ipcHandler = (mainWindow: BrowserWindow) => {
     const appService = new MainAppService();
     ipcMain.removeHandler(Channel.GET_ROOT_FOLDERS);
-    ipcMain.handle(Channel.GET_ROOT_FOLDERS, async () => {
-        return appService.getAllRootEntity();
+    ipcMain.handle(Channel.GET_ROOT_FOLDERS, async (_event, search) => {
+        return appService.getAllRootEntity(search);
     });
 
     ipcMain.removeHandler(Channel.GET_CHILDREN);
-    ipcMain.handle(Channel.GET_CHILDREN, async (_event, parentId) => {
-        return appService.getChildren(parentId);
+    ipcMain.handle(Channel.GET_CHILDREN, async (_event, parentId, search) => {
+        return appService.getChildren(parentId, search);
     });
     ipcMain.removeHandler(Channel.ADD_FOLDER);
     ipcMain.handle(Channel.ADD_FOLDER, async () => {

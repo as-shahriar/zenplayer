@@ -25,10 +25,11 @@ if (process.contextIsolated) {
 
 contextBridge.exposeInMainWorld(ApiKey, {
     selectFolder: () => ipcRenderer.invoke(Channel.ADD_FOLDER),
-    getRootFolders: () => ipcRenderer.invoke(Channel.GET_ROOT_FOLDERS),
+    getRootFolders: (search?: string) => ipcRenderer.invoke(Channel.GET_ROOT_FOLDERS, search),
     getEntity: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY, id),
     getEntitySiblings: (id: number) => ipcRenderer.invoke(Channel.GET_ENTITY_SIBLINGS, id),
-    getChildren: (parentId: number) => ipcRenderer.invoke(Channel.GET_CHILDREN, parentId),
+    getChildren: (parentId: number, search?: string) =>
+        ipcRenderer.invoke(Channel.GET_CHILDREN, parentId, search),
     updateProgress: (id, progress) => ipcRenderer.invoke(Channel.UPDATE_PROGRESS, id, progress),
     updateFavorite: (id, favorite) => ipcRenderer.invoke(Channel.UPDATE_FAVORITE, id, favorite),
     getAllFavorites: () => ipcRenderer.invoke(Channel.GET_ALL_FAVORITES),

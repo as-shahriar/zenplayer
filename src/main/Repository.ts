@@ -52,12 +52,18 @@ export class Repository {
         return db.prepare(`select * from folders where 1;`).all() as EntityModel[];
     }
 
-    findAllRoot() {
-        return db.prepare(`select * from folders where parent=-1;`).all() as EntityModel[];
+    findAllRoot(search = '') {
+        const stmt = db.prepare(
+            `select * from folders where parent=-1 AND name LIKE ? order by name ;`
+        );
+        return stmt.all(`%${search}%`) as EntityModel[];
     }
 
-    findChildren(parentId: number) {
-        return db.prepare(`select * from folders where parent=${parentId};`).all() as EntityModel[];
+    findChildren(parentId: number, search = '') {
+        const stmt = db.prepare(
+            `select * from folders where parent=${parentId} AND name LIKE ? order by name;`
+        );
+        return stmt.all(`%${search}%`) as EntityModel[];
     }
 
     insert(entity: EntityModel) {

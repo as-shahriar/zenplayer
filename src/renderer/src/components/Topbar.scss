@@ -1,0 +1,46 @@
+@import "../assets/scss/utils/functions";
+@import "../assets/scss/utils/variables";
+@import "../assets/scss/utils/mixins";
+
+.page-topbar-container {
+    .custom-input-container {
+        position: relative;
+
+        .custom-input {
+            width: 200px;
+            height: 30px;
+            @include theme("background-color", $theme-sidebar-bg);
+            border: none;
+            @include theme("color", $theme-sidebar-color);
+            padding: 10px 8px 10px 25px;
+
+            &:focus-visible {
+                outline: none;
+            }
+
+            &::placeholder {
+                @include theme("color", $theme-sidebar-color);
+                opacity: 0.5;
+            }
+        }
+
+        .search {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            @include theme("fill", $theme-sidebar-color, false, "!important");
+            opacity: 0.5;
+        }
+    }
+
+    .btn-back {
+        &:hover {
+            @include theme("background-color", $theme-sidebar-bg);
+
+            svg {
+                @include theme("fill", $theme-sidebar-color, false, "!important");
+            }
+        }
+    }
+}

@@ -2,12 +2,12 @@ import { ApiKey } from '../../../constants/appConstants';
 import { EntityModel } from '../../../models/EntityModel';
 
 export class AppService {
-    static getRootFolders(): Promise<EntityModel[]> {
-        return window[ApiKey].getRootFolders();
+    static getRootFolders(search?: string): Promise<EntityModel[]> {
+        return window[ApiKey].getRootFolders(search);
     }
 
-    static getChildren(id: string): Promise<EntityModel[]> {
-        return window[ApiKey].getChildren(id);
+    static getChildren(id: string, search?: string): Promise<EntityModel[]> {
+        return window[ApiKey].getChildren(id, search);
     }
 
     static updateFavorite(id: number, favorite: number) {

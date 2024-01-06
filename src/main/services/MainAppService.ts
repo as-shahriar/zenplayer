@@ -75,18 +75,18 @@ export class MainAppService {
         this.uploadEachData(data, -1);
     };
 
-    getAllRootEntity = () => {
+    getAllRootEntity = (search?: string) => {
         try {
-            return this.repository.findAllRoot();
+            return this.repository.findAllRoot(search);
         } catch (err) {
             console.log(err);
         }
         return [];
     };
 
-    getChildren = (parentId: number) => {
+    getChildren = (parentId: number, search?: string) => {
         try {
-            return this.repository.findChildren(parentId);
+            return this.repository.findChildren(parentId, search);
         } catch (err) {
             console.log(err);
         }
