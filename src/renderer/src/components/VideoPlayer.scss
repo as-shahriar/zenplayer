@@ -37,11 +37,7 @@
             }
         }
 
-        &.show {
-
-        }
-
-        &.hide {
+        &.hide:not(:focus-within) {
             opacity: 0;
             transform: translateY(-55px);
         }
