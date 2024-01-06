@@ -10,7 +10,7 @@ import { useQuery } from 'react-query';
 import { AppService } from '../services/AppService';
 import { AddButton } from '../components/AddButton';
 import { Topbar } from '../components/Topbar';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export const WatchListPage = () => {
     const { id } = useParams();

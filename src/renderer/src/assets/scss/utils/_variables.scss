@@ -2,7 +2,9 @@
 
 $dark-theme: "dark-theme";
 $light-theme: "light-theme";
-$blue-theme: "blue-theme";
+$deep-sapphire-theme: "deep-sapphire-theme";
+$phthalo-green-theme: "phthalo-green-theme";
+$mulled-wine-theme: "mulled-wine-theme";
 
 $primary: #5E9FFF;
 $secondary: #E0F4FF;
@@ -14,10 +16,20 @@ $dark-secondary: #282C2F;
 $dark-primary-semi-light: #323639;
 $dark-primary-light: #404042;
 
-$blue-primary: #0F2D6B;
-$blue-secondary: #002062;
-$blue-primary-semi-light: #0E45B6;
-$blue-primary-light: #355fb2;
+$deep-sapphire-primary: #0F2D6B;
+$deep-sapphire-secondary: #002062;
+$deep-sapphire-primary-semi-light: #0E45B6;
+$deep-sapphire-primary-light: #355fb2;
+
+$phthalo-green-primary: #163020;
+$phthalo-green-secondary: #274127;
+$phthalo-green-primary-semi-light: #697e69;
+$phthalo-green-primary-light: #94af94;
+
+$mulled-wine-primary: #2D3250;
+$mulled-wine-secondary: #424769;
+$mulled-wine-primary-semi-light: #545d8a;
+$mulled-wine-primary-light: #7077A1;
 
 $theme-bg: "theme-bg";
 $theme-color: "theme-color";
@@ -44,17 +56,37 @@ $dark-theme-colors: (
     $theme-primary-light: $dark-primary-light
 );
 
-$blue-theme-colors: (
-    $theme-bg: $blue-secondary,
+$deep-sapphire-theme-colors: (
+    $theme-bg: $deep-sapphire-secondary,
     $theme-color: $white,
-    $theme-sidebar-bg: $blue-primary,
+    $theme-sidebar-bg: $deep-sapphire-primary,
     $theme-sidebar-color: $white,
-    $theme-primary-semi-light: $blue-primary-semi-light,
-    $theme-primary-light: $blue-primary-light
+    $theme-primary-semi-light: $deep-sapphire-primary-semi-light,
+    $theme-primary-light: $deep-sapphire-primary-light
+);
+
+$phthalo-green-theme-colors: (
+    $theme-bg: $phthalo-green-secondary,
+    $theme-color: $white,
+    $theme-sidebar-bg: $phthalo-green-primary,
+    $theme-sidebar-color: $white,
+    $theme-primary-semi-light: $phthalo-green-primary-semi-light,
+    $theme-primary-light: $phthalo-green-primary-light
+);
+
+$mulled-wine-theme-colors: (
+    $theme-bg: $mulled-wine-secondary,
+    $theme-color: $white,
+    $theme-sidebar-bg: $mulled-wine-primary,
+    $theme-sidebar-color: $white,
+    $theme-primary-semi-light: $mulled-wine-primary-semi-light,
+    $theme-primary-light: $mulled-wine-primary-light
 );
 
 $themes: (
     $light-theme: $light-theme-colors,
     $dark-theme: $dark-theme-colors,
-    $blue-theme: $blue-theme-colors
+    $deep-sapphire-theme: $deep-sapphire-theme-colors,
+    $phthalo-green-theme: $phthalo-green-theme-colors,
+    $mulled-wine-theme: $mulled-wine-theme-colors,
 ) !default;

@@ -22,7 +22,9 @@ export class CommonUtil {
     static applyTheme(theme = CommonUtil.getTheme()) {
         const htmlEl = document.querySelector('html');
         if (htmlEl) {
-            htmlEl.classList.remove(AppTheme.LIGHT, AppTheme.BLUE, AppTheme.DARK);
+            Object.values(AppTheme).forEach((each) => {
+                htmlEl.classList.remove(each);
+            });
             htmlEl.classList.add(theme);
         }
         CommonUtil.setTheme(theme);

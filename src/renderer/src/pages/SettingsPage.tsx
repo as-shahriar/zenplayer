@@ -4,6 +4,8 @@ import { CommonUtil } from '../services/CommonUtil';
 import { useEffect, useState } from 'react';
 import { startCase } from 'lodash';
 import { APP_VERSION } from '../../../constants/appConstants';
+import { Icon } from '../components/Icon';
+import iconDef from '../assets/fonts/zenplayer-icon-defs.svg';
 
 export const SettingsPage = () => {
     const [theme, setTheme] = useState<AppTheme>(AppTheme.LIGHT);
@@ -14,8 +16,8 @@ export const SettingsPage = () => {
 
     const renderThemeItem = () => {
         return Object.values(AppTheme).map((item) => (
-            <DropdownItem key={item} onClick={() => onThemeClick(item)}>
-                {startCase(item)}
+            <DropdownItem key={item} onClick={() => onThemeClick(item)} className="d-flex justify-content-between align-items-center">
+                {startCase(item)} {theme === item && <Icon className="ms-1" iconSpritePath={iconDef} name="check" height={12} width={12}/>}
             </DropdownItem>
         ));
     };

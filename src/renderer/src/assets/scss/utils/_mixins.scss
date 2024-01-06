@@ -13,7 +13,9 @@
 @mixin processTheme($module, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties) {
     $light: map-get($themes, $light-theme);
     $dark: map-get($themes, $dark-theme);
-    $blue: map-get($themes, $blue-theme);
+    $deep-sapphire: map-get($themes, $deep-sapphire-theme);
+    $phthalo-green: map-get($themes, $phthalo-green-theme);
+    $mulled-wine: map-get($themes, $mulled-wine-theme);
 
     @include themeProperty($light, $property, $color, $additionalPropertiesPositionIsFront, $additionalProperties);
 
@@ -21,8 +23,16 @@
         @include themeProperty($dark, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
     }
 
-    .#{$blue-theme} & {
-        @include themeProperty($blue, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
+    .#{$deep-sapphire-theme} & {
+        @include themeProperty($deep-sapphire, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
+    }
+
+    .#{$phthalo-green-theme} & {
+        @include themeProperty($phthalo-green, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
+    }
+
+    .#{$mulled-wine-theme} & {
+        @include themeProperty($mulled-wine, $property, '#{$color}', $additionalPropertiesPositionIsFront, $additionalProperties);
     }
 }
 

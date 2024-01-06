@@ -52,7 +52,7 @@ export const VideoPage = () => {
     useEffect(() => {
         if (id) {
             AppService.getEntitySiblings(id).then((result: EntityModel[]) => {
-                const tempList = result.filter((each) => each.type === EntityType.Video)
+                const tempList = result.filter((each) => each.type === EntityType.Video);
                 setVideoList(tempList);
             });
         }
