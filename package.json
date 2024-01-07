@@ -1,7 +1,7 @@
 {
   "name": "zenplayer",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Experience uninterrupted video tracking and resuming with Zenplayer, powered by Electron, Vite, and React.",
   "main": "./out/main/index.js",
   "author": "Asif Shahriar",
   "homepage": "https://www.electronjs.org",
