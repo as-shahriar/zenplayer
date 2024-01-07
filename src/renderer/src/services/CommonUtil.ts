@@ -1,4 +1,6 @@
 import { AppTheme } from '../../../models/enums/AppTheme';
+import { EntityModel } from '../../../models/EntityModel';
+import { sortBy } from 'lodash';
 
 export class CommonUtil {
     static THEME = 'app-theme';
@@ -28,5 +30,15 @@ export class CommonUtil {
             htmlEl.classList.add(theme);
         }
         CommonUtil.setTheme(theme);
+    }
+
+    static sortBy(entityList: EntityModel[]) {
+        return sortBy(entityList, (entity) => {
+            const withNumber = entity.name.match(/^\d+/);
+            if (withNumber) {
+                return parseInt(withNumber[0]);
+            }
+            return entity.name;
+        });
     }
 }

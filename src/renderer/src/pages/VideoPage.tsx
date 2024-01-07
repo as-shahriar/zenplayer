@@ -6,6 +6,7 @@ import { VideoPlayer } from '../components/VideoPlayer';
 import { Playlist } from '../components/Playlist';
 import { ROUTES } from '../Routes';
 import { AppService } from '../services/AppService';
+import { CommonUtil } from '../services/CommonUtil';
 
 export const VideoPage = () => {
     const { id } = useParams();
@@ -53,7 +54,7 @@ export const VideoPage = () => {
         if (id) {
             AppService.getEntitySiblings(id).then((result: EntityModel[]) => {
                 const tempList = result.filter((each) => each.type === EntityType.Video);
-                setVideoList(tempList);
+                setVideoList(CommonUtil.sortBy(tempList));
             });
         }
     }, [id]);

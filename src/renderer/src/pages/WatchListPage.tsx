@@ -11,6 +11,7 @@ import { AppService } from '../services/AppService';
 import { AddButton } from '../components/AddButton';
 import { Topbar } from '../components/Topbar';
 import { useState } from 'react';
+import { CommonUtil } from '../services/CommonUtil';
 
 export const WatchListPage = () => {
     const { id } = useParams();
@@ -25,7 +26,7 @@ export const WatchListPage = () => {
         } else {
             entityList = await AppService.getRootFolders(searchTerm);
         }
-        return entityList;
+        return CommonUtil.sortBy(entityList);
     };
 
     const getEntity = () => {

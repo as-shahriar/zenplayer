@@ -19,4 +19,4 @@ export const QUERY_KEYS = {
     GET_ALL_FAVORITE_ENTITY: 'GET_ALL_FAVORITE_ENTITY'
 };
 
-export const APP_VERSION = '1.0.1';
+export const APP_VERSION = '1.0';
