@@ -16,9 +16,8 @@
   <a href="#license">License</a>
 </p>
 
-<p align="center" width="100%">
-    <img width="80%%" src="https://raw.githubusercontent.com/asifo1/zenplayer/main/preview/demo.gif">
-</p>
+<img width="100%%" src="https://raw.githubusercontent.com/asifo1/zenplayer/main/preview/demo.gif">
+
 
 ## Key Features
 
