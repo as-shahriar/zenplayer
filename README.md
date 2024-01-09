@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-  <img src="https://raw.githubusercontent.com/asifo1/zenplayer/main/build/256x256.png" alt="Markdownify" width="200">
+  <img src="https://raw.githubusercontent.com/asifo1/zenplayer/main/build/256x256.png" alt="Zenplayer" width="200">
   <br>
   Zenplayer
   <br>
