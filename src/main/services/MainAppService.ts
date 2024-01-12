@@ -52,7 +52,10 @@ export class MainAppService {
     };
 
     uploadEachData = (data: FolderDetails, parent: number) => {
-        if (data) {
+        if (
+            data.type === EntityType.Video ||
+            (data.type === EntityType.Folder && data.children?.length > 0)
+        ) {
             const entity: EntityModel = {
                 name: data.key,
                 path: data.path,

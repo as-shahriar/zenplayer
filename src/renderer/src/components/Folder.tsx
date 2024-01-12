@@ -77,7 +77,7 @@ export const Folder = (props: FolderProps) => {
                             width={16}
                             height={16}
                         />
-                        Delete
+                        Remove
                     </Item>
                 )}
             </Fragment>
