@@ -1,6 +1,6 @@
 {
-    "name": "zenplayer",
-    "version": "1.0.0",
+    "name": "Zenplayer",
+    "version": "1.0.1",
     "description": "Experience uninterrupted video tracking and resuming with Zenplayer, powered by Electron, Vite, and React.",
     "main": "./out/main/index.js",
     "author": "Asif Shahriar <asif.qubit@gmail.com>",
