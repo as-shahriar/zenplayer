@@ -43,7 +43,7 @@ export const SettingsPage = () => {
                 <a
                     className="link-primary"
                     target="_blank"
-                    href="https://github.com/asifo1/zenplayer"
+                    href="https://github.com/as-shahriar/zenplayer"
                     rel="noreferrer"
                 >
                     GitHub Repository

@@ -4,7 +4,7 @@
     "description": "Experience uninterrupted video tracking and resuming with Zenplayer, powered by Electron, Vite, and React.",
     "main": "./out/main/index.js",
     "author": "Asif Shahriar <asif.qubit@gmail.com>",
-    "homepage": "https://github.com/asifo1/zenplayer",
+    "homepage": "https://github.com/as-shahriar/zenplayer",
     "scripts": {
         "format": "prettier --write .",
         "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
