@@ -71,6 +71,7 @@ export const VideoPage = () => {
                 playlist={playlist}
                 playNext={playNext}
                 setPlaylist={setPlaylist}
+                videoTitle={selectedVideo?.name}
                 updateProgress={updateVideoProgress}
                 goBack={goBack}
             />

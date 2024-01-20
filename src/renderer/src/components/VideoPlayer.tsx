@@ -14,6 +14,7 @@ type VideoProps = {
     setPlaylist: Dispatch<SetStateAction<boolean>>;
     updateProgress: (total: number, current: number) => void;
     goBack: () => void;
+    videoTitle?: string;
 };
 
 const options = {
@@ -31,7 +32,7 @@ const shouldApplyProgress = (progress?: number) => {
 };
 
 export const VideoPlayer = (props: VideoProps) => {
-    const { playlist, videoSrc, playNext, setPlaylist, updateProgress, goBack } = props;
+    const { playlist, videoSrc, playNext, setPlaylist, updateProgress, goBack, videoTitle } = props;
     const ref = useRef<APITypes>(null);
     const videoProgress = useRef(0);
     const updateCurrentTimeRef = useRef<boolean>(false);
@@ -142,7 +143,7 @@ export const VideoPlayer = (props: VideoProps) => {
                 ref={raptorRef as React.MutableRefObject<HTMLVideoElement>}
                 className="plyr-react plyr"
             />
-            <div className="topbar-container hide w-100 position-absolute top-0 p-2">
+            <div className="topbar-container hide w-100 position-absolute top-0 p-2 d-flex align-items-center">
                 <button className="btn btn-back px-1 ms-1" onClick={goBack}>
                     <Icon
                         className="mt-n1 me-1"
@@ -153,6 +154,7 @@ export const VideoPlayer = (props: VideoProps) => {
                     />
                     Back
                 </button>
+                <span className="mx-2 mt-n1 fs-6">|</span> {videoTitle}
             </div>
         </div>
     );
