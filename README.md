@@ -55,7 +55,7 @@ $ npm run dev
 
 ## Download
 
-You can [download](https://github.com/asifo1/zenplayer/releases/tag/Latest) the latest installable version of Zenplayer for Windows, macOS and Linux.
+You can [download](https://github.com/as-shahriar/zenplayer/releases) the latest installable version of Zenplayer for Windows, macOS and Linux.
 
 ## License
 
